@@ -8,7 +8,7 @@ import { supabase } from "@/integrations/supabase/client";
 const schema = z.object({
   name: z.string().trim().min(1, "Required").max(100),
   email: z.string().trim().email("Invalid email").max(255),
-  subject: z.string().trim().max(150).optional().default(""),
+  subject: z.string().trim().max(150).default(""),
   message: z.string().trim().min(10, "Minimum 10 characters").max(2000),
 });
 
