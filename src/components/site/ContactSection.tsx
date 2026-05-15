@@ -22,7 +22,10 @@ export function ContactSection() {
     handleSubmit,
     formState: { errors, isSubmitting },
     reset,
-  } = useForm<FormData>({ resolver: zodResolver(schema) });
+  } = useForm<FormData>({
+    resolver: zodResolver(schema),
+    defaultValues: { name: "", email: "", subject: "", message: "" },
+  });
 
   const onSubmit = async (values: FormData) => {
     setError(null);
