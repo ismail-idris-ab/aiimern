@@ -123,7 +123,7 @@ function BlogPost() {
 
             {post.tags && post.tags.length > 0 && (
               <div className="mt-12 max-w-3xl mx-auto flex flex-wrap gap-2">
-                {post.tags.map((t) => (
+                {post.tags.map((t: string) => (
                   <span key={t} className="text-xs px-3 py-1.5 rounded-full bg-surface-soft text-muted-foreground">#{t}</span>
                 ))}
               </div>
@@ -147,7 +147,7 @@ function BlogPost() {
             <div className="container-cf">
               <h2 className="text-3xl font-display font-semibold mb-8">Related articles</h2>
               <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                {related.map((r) => (
+                {related.map((r: { slug: string; title: string; cover_image: string | null; category: string; reading_time: number }) => (
                   <Link key={r.slug} to="/blog/$slug" params={{ slug: r.slug }} className="card-cf p-4 group">
                     <div className="aspect-[16/10] rounded-xl overflow-hidden">
                       <img src={r.cover_image ?? ""} alt={r.title} className="h-full w-full object-cover group-hover:scale-105 transition-transform duration-700" loading="lazy" />
