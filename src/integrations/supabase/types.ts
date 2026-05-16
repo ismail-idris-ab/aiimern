@@ -104,6 +104,27 @@ export type Database = {
         }
         Relationships: []
       }
+      newsletter_subscribers: {
+        Row: {
+          id: string
+          email: string
+          subscribed_at: string
+          confirmed: boolean
+        }
+        Insert: {
+          id?: string
+          email: string
+          subscribed_at?: string
+          confirmed?: boolean
+        }
+        Update: {
+          id?: string
+          email?: string
+          subscribed_at?: string
+          confirmed?: boolean
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
