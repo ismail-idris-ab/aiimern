@@ -8,13 +8,14 @@ import { supabase } from "@/integrations/supabase/client";
 
 export const Route = createFileRoute("/projects/$slug")({
   loader: async ({ params }) => {
-    const { data } = await supabase
+    const { data, error } = await supabase
       .from("projects")
       .select("*")
       .eq("slug", params.slug)
       .eq("status", "published")
       .maybeSingle();
 
+    if (error) throw error;
     if (!data) throw redirect({ to: "/projects" });
     return { project: data };
   },
