@@ -3,13 +3,14 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Mail, Phone, MapPin, Send, Loader2, Check } from "lucide-react";
-import { supabase } from "@/integrations/supabase/client";
+import { submitContact } from "@/lib/contact-action";
 
 const schema = z.object({
   name: z.string().trim().min(1, "Required").max(100),
   email: z.string().trim().email("Invalid email").max(255),
   subject: z.string().trim().max(150),
   message: z.string().trim().min(10, "Minimum 10 characters").max(2000),
+  website: z.string().default(""),
 });
 
 type FormData = z.infer<typeof schema>;
@@ -24,19 +25,14 @@ export function ContactSection() {
     reset,
   } = useForm<FormData>({
     resolver: zodResolver(schema),
-    defaultValues: { name: "", email: "", subject: "", message: "" },
+    defaultValues: { name: "", email: "", subject: "", message: "", website: "" },
   });
 
   const onSubmit = async (values: FormData) => {
     setError(null);
-    const { error } = await supabase.from("contact_messages").insert({
-      name: values.name,
-      email: values.email,
-      subject: values.subject || "General inquiry",
-      message: values.message,
-    });
-    if (error) {
-      setError("Could not send. Please try again.");
+    const result = await submitContact({ data: values });
+    if (!result.ok) {
+      setError(result.error);
       return;
     }
     setSent(true);
@@ -77,6 +73,15 @@ export function ContactSection() {
         </div>
 
         <form onSubmit={handleSubmit(onSubmit)} className="lg:col-span-7 card-cf p-7 md:p-9 space-y-5">
+          {/* Honeypot — hidden from real users, bots fill it */}
+          <input
+            {...register("website")}
+            tabIndex={-1}
+            autoComplete="off"
+            style={{ position: "absolute", left: "-9999px", opacity: 0, height: 0 }}
+            aria-hidden="true"
+          />
+
           <div className="grid sm:grid-cols-2 gap-5">
             <Field label="Name" error={errors.name?.message}>
               <input {...register("name")} className="cf-input" placeholder="Your name" />
@@ -95,9 +100,13 @@ export function ContactSection() {
           {error && <p className="text-sm text-destructive">{error}</p>}
 
           <button type="submit" disabled={isSubmitting || sent} className="btn-gold w-full sm:w-auto disabled:opacity-60">
-            {isSubmitting ? (<><Loader2 size={16} className="animate-spin" /> Sending…</>)
-              : sent ? (<><Check size={16} /> Message sent</>)
-              : (<><Send size={16} /> Send message</>)}
+            {isSubmitting ? (
+              <><Loader2 size={16} className="animate-spin" /> Sending…</>
+            ) : sent ? (
+              <><Check size={16} /> Message sent</>
+            ) : (
+              <><Send size={16} /> Send message</>
+            )}
           </button>
 
           <style>{`
