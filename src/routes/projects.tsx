@@ -5,16 +5,30 @@ import { ProjectsGrid } from "@/components/site/ProjectsGrid";
 
 export const Route = createFileRoute("/projects")({
   component: ProjectsPage,
-  head: () => ({
-    meta: [
-      { title: "Projects — AiimanFolio Pro" },
-      { name: "description", content: "A selection of work spanning product design, web apps, and brand systems." },
-      { property: "og:title", content: "Projects — AiimanFolio Pro" },
-      { property: "og:description", content: "A selection of work spanning product design, web apps, and brand systems." },
-      { property: "og:url", content: "/projects" },
-    ],
-    links: [{ rel: "canonical", href: "/projects" }],
-  }),
+  head: () => {
+    const title = "Projects — AiimanFolio.Pro";
+    const description = "A curated selection of product, web app, and brand work — case studies spanning design systems, full-stack engineering, and launch strategy.";
+    const image = "/og-default.jpg";
+    return {
+      meta: [
+        { title },
+        { name: "description", content: description },
+        { property: "og:title", content: title },
+        { property: "og:description", content: description },
+        { property: "og:url", content: "/projects" },
+        { property: "og:type", content: "website" },
+        { property: "og:image", content: image },
+        { property: "og:image:width", content: "1200" },
+        { property: "og:image:height", content: "640" },
+        { property: "og:image:alt", content: "AiimanFolio.Pro — Selected Projects" },
+        { name: "twitter:card", content: "summary_large_image" },
+        { name: "twitter:title", content: title },
+        { name: "twitter:description", content: description },
+        { name: "twitter:image", content: image },
+      ],
+      links: [{ rel: "canonical", href: "/projects" }],
+    };
+  },
 });
 
 function ProjectsPage() {
