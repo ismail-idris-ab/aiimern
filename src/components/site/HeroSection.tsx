@@ -1,5 +1,6 @@
 import { ArrowRight, Download, Sparkles } from "lucide-react";
 import { Link } from "@tanstack/react-router";
+import portrait from "@/assets/portrait.jpg";
 
 export function HeroSection() {
   return (
