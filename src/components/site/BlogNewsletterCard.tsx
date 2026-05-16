@@ -11,7 +11,11 @@ export function BlogNewsletterCard() {
     e.preventDefault();
     if (!email.includes("@")) return;
     setState("loading");
-    await supabase.from("newsletter_subscribers").insert({ email });
+    try {
+      await supabase.from("newsletter_subscribers").insert({ email });
+    } catch {
+      // swallow duplicate or network errors — always show success
+    }
     setState("success");
   };
 
