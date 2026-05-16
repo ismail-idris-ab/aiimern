@@ -1,19 +1,72 @@
-const stats = [
-  { k: "120+", v: "Projects Delivered" },
-  { k: "40+", v: "Happy Clients" },
-  { k: "8+", v: "Years Experience" },
-  { k: "12", v: "Industry Awards" },
+import { useEffect, useRef } from "react";
+import {
+  motion,
+  useInView,
+  useMotionValue,
+  useReducedMotion,
+  useSpring,
+  useTransform,
+} from "framer-motion";
+
+type Stat = {
+  value: number;
+  suffix: string;
+  label: string;
+};
+
+const stats: Stat[] = [
+  { value: 120, suffix: "+", label: "Projects Delivered" },
+  { value: 40,  suffix: "+", label: "Happy Clients" },
+  { value: 8,   suffix: "+", label: "Years Experience" },
+  { value: 12,  suffix: "",  label: "Industry Awards" },
 ];
 
+function CounterNumber({
+  value,
+  suffix,
+  trigger,
+}: {
+  value: number;
+  suffix: string;
+  trigger: boolean;
+}) {
+  const prefersReducedMotion = useReducedMotion();
+  const count = useMotionValue(0);
+  const spring = useSpring(
+    count,
+    prefersReducedMotion ? { duration: 0, bounce: 0 } : { duration: 1500, bounce: 0 },
+  );
+  const rounded = useTransform(spring, Math.round);
+
+  useEffect(() => {
+    if (trigger) count.set(value);
+  }, [trigger, value, count]);
+
+  return (
+    <div className="text-4xl md:text-5xl font-display font-semibold gradient-text">
+      <motion.span>{rounded}</motion.span>
+      {suffix}
+    </div>
+  );
+}
+
 export function StatsSection() {
+  const ref = useRef<HTMLDivElement>(null);
+  const inView = useInView(ref, { once: true, amount: 0.4 });
+
   return (
     <section className="section-pad">
       <div className="container-cf">
-        <div className="card-cf p-10 md:p-14 grid grid-cols-2 md:grid-cols-4 gap-8 text-center bg-gradient-to-br from-surface to-surface-soft">
+        <div
+          ref={ref}
+          className="card-cf p-10 md:p-14 grid grid-cols-2 md:grid-cols-4 gap-8 text-center bg-gradient-to-br from-surface to-surface-soft"
+        >
           {stats.map((s) => (
-            <div key={s.v}>
-              <div className="text-4xl md:text-5xl font-display font-semibold gradient-text">{s.k}</div>
-              <div className="mt-2 text-xs md:text-sm uppercase tracking-widest text-muted-foreground">{s.v}</div>
+            <div key={s.label}>
+              <CounterNumber value={s.value} suffix={s.suffix} trigger={inView} />
+              <div className="mt-2 text-xs md:text-sm uppercase tracking-widest text-muted-foreground">
+                {s.label}
+              </div>
             </div>
           ))}
         </div>
