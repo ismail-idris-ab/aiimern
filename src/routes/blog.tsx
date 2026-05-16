@@ -8,17 +8,30 @@ import { supabase } from "@/integrations/supabase/client";
 
 export const Route = createFileRoute("/blog")({
   component: BlogIndex,
-  head: () => ({
-    meta: [
-      { title: "Blog — CraftFolio Pro" },
-      { name: "description", content: "Essays on design, engineering, and shipping premium products." },
-      { property: "og:title", content: "Blog — CraftFolio Pro" },
-      { property: "og:description", content: "Essays on design, engineering, and shipping premium products." },
-      { property: "og:url", content: "/blog" },
-      { property: "og:type", content: "website" },
-    ],
-    links: [{ rel: "canonical", href: "/blog" }],
-  }),
+  head: () => {
+    const title = "Blog — CraftFolio Pro";
+    const description = "Essays on design, engineering, and shipping premium products. Tutorials, notes, and case studies from the craft of building software.";
+    const image = "/og-default.jpg";
+    return {
+      meta: [
+        { title },
+        { name: "description", content: description },
+        { property: "og:title", content: title },
+        { property: "og:description", content: description },
+        { property: "og:url", content: "/blog" },
+        { property: "og:type", content: "website" },
+        { property: "og:image", content: image },
+        { property: "og:image:width", content: "1200" },
+        { property: "og:image:height", content: "640" },
+        { property: "og:image:alt", content: "CraftFolio Pro — Essays on craft, design & engineering" },
+        { name: "twitter:card", content: "summary_large_image" },
+        { name: "twitter:title", content: title },
+        { name: "twitter:description", content: description },
+        { name: "twitter:image", content: image },
+      ],
+      links: [{ rel: "canonical", href: "/blog" }],
+    };
+  },
 });
 
 const PAGE_SIZE = 6;
