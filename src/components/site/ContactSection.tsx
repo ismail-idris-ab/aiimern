@@ -109,20 +109,6 @@ export function ContactSection() {
             )}
           </button>
 
-          <style>{`
-            .cf-input {
-              width: 100%;
-              background: var(--surface-soft);
-              border: 1px solid var(--border);
-              border-radius: 0.75rem;
-              padding: 0.75rem 1rem;
-              color: var(--foreground);
-              font-size: 0.95rem;
-              transition: border-color .2s ease, background .2s ease;
-            }
-            .cf-input::placeholder { color: var(--muted-foreground); }
-            .cf-input:focus { outline: none; border-color: var(--primary); background: color-mix(in oklab, var(--primary) 5%, var(--surface-soft)); }
-          `}</style>
         </form>
       </div>
     </section>
