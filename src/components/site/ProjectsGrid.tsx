@@ -1,33 +1,47 @@
 import { Link } from "@tanstack/react-router";
-import { useMemo, useState } from "react";
+import { useMemo, useState, useEffect } from "react";
 import { ArrowUpRight } from "lucide-react";
+import { supabase } from "@/integrations/supabase/client";
 
 export type Project = {
   title: string;
+  slug: string;
+  excerpt: string | null;
   category: string;
   tags: string[];
-  image: string;
-  link?: string;
+  cover_image: string | null;
+  live_url: string | null;
+  github_url: string | null;
+  featured: boolean;
+  sort_order: number;
 };
 
-export const PROJECTS: Project[] = [
-  { title: "Aurora Banking", category: "Product", tags: ["Web App", "Fintech"], image: "https://images.unsplash.com/photo-1559526324-4b87b5e36e44?w=1200&q=80" },
-  { title: "Helio Storefront", category: "E-commerce", tags: ["Shopify", "Branding"], image: "https://images.unsplash.com/photo-1607082348824-0a96f2a4b9da?w=1200&q=80" },
-  { title: "Studio OS", category: "SaaS", tags: ["Dashboard", "Design System"], image: "https://images.unsplash.com/photo-1551434678-e076c223a692?w=1200&q=80" },
-  { title: "Northwind Site", category: "Marketing", tags: ["Landing", "Motion"], image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=1200&q=80" },
-  { title: "Lumen Mobile", category: "Mobile", tags: ["iOS", "App"], image: "https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?w=1200&q=80" },
-  { title: "Forge Brand System", category: "Branding", tags: ["Identity", "Guidelines"], image: "https://images.unsplash.com/photo-1561070791-2526d30994b8?w=1200&q=80" },
-];
-
-const FILTERS = ["All", "Product", "E-commerce", "SaaS", "Marketing", "Mobile", "Branding"] as const;
-
 export function ProjectsGrid({ limit, showFilters = true }: { limit?: number; showFilters?: boolean }) {
-  const [filter, setFilter] = useState<(typeof FILTERS)[number]>("All");
+  const [projects, setProjects] = useState<Project[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [filter, setFilter] = useState("All");
+
+  useEffect(() => {
+    supabase
+      .from("projects")
+      .select("title, slug, excerpt, category, tags, cover_image, live_url, github_url, featured, sort_order")
+      .eq("status", "published")
+      .order("sort_order", { ascending: true })
+      .then(({ data }) => {
+        setProjects(data ?? []);
+        setLoading(false);
+      });
+  }, []);
+
+  const categories = useMemo(
+    () => ["All", ...Array.from(new Set(projects.map((p) => p.category)))],
+    [projects],
+  );
 
   const filtered = useMemo(() => {
-    const base = filter === "All" ? PROJECTS : PROJECTS.filter((p) => p.category === filter);
+    const base = filter === "All" ? projects : projects.filter((p) => p.category === filter);
     return limit ? base.slice(0, limit) : base;
-  }, [filter, limit]);
+  }, [projects, filter, limit]);
 
   return (
     <section className="section-pad" id="projects">
@@ -44,9 +58,9 @@ export function ProjectsGrid({ limit, showFilters = true }: { limit?: number; sh
           )}
         </div>
 
-        {showFilters && (
+        {showFilters && !loading && categories.length > 1 && (
           <div className="mt-8 flex flex-wrap gap-2">
-            {FILTERS.map((f) => (
+            {categories.map((f) => (
               <button
                 key={f}
                 onClick={() => setFilter(f)}
@@ -63,33 +77,57 @@ export function ProjectsGrid({ limit, showFilters = true }: { limit?: number; sh
         )}
 
         <div className="mt-10 grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {filtered.map((p) => (
-            <article key={p.title} className="card-cf overflow-hidden group">
-              <div className="relative aspect-[4/3] overflow-hidden">
-                <img src={p.image} alt={p.title} className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105" loading="lazy" />
-                <div className="absolute inset-0 bg-gradient-to-t from-background/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
-              </div>
-              <div className="p-6">
-                <div className="flex items-center justify-between gap-3">
-                  <div>
-                    <div className="text-xs uppercase tracking-widest text-primary mb-1">{p.category}</div>
-                    <h3 className="text-lg font-semibold">{p.title}</h3>
+          {loading
+            ? Array.from({ length: limit ?? 6 }).map((_, i) => (
+                <div key={i} className="card-cf overflow-hidden">
+                  <div className="aspect-[4/3] animate-pulse bg-surface-soft" />
+                  <div className="p-6 space-y-3">
+                    <div className="h-3 w-16 rounded animate-pulse bg-surface-soft" />
+                    <div className="h-4 w-3/4 rounded animate-pulse bg-surface-soft" />
                   </div>
-                  <span className="grid place-items-center size-10 rounded-full border border-[var(--border)] text-muted-foreground group-hover:border-primary group-hover:text-primary transition-colors">
-                    <ArrowUpRight size={16} />
-                  </span>
                 </div>
-                <div className="mt-3 flex flex-wrap gap-1.5">
-                  {p.tags.map((t) => (
-                    <span key={t} className="text-[11px] px-2 py-1 rounded-full bg-surface-soft text-muted-foreground">{t}</span>
-                  ))}
-                </div>
-              </div>
-            </article>
-          ))}
+              ))
+            : filtered.map((p) => (
+                <Link
+                  key={p.slug}
+                  to="/projects/$slug"
+                  params={{ slug: p.slug }}
+                  className="card-cf overflow-hidden group block"
+                >
+                  <div className="relative aspect-[4/3] overflow-hidden">
+                    {p.cover_image ? (
+                      <img
+                        src={p.cover_image}
+                        alt={p.title}
+                        className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
+                        loading="lazy"
+                      />
+                    ) : (
+                      <div className="h-full w-full bg-surface-soft" />
+                    )}
+                    <div className="absolute inset-0 bg-gradient-to-t from-background/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+                  </div>
+                  <div className="p-6">
+                    <div className="flex items-center justify-between gap-3">
+                      <div>
+                        <div className="text-xs uppercase tracking-widest text-primary mb-1">{p.category}</div>
+                        <h3 className="text-lg font-semibold">{p.title}</h3>
+                      </div>
+                      <span className="grid place-items-center size-10 rounded-full border border-[var(--border)] text-muted-foreground group-hover:border-primary group-hover:text-primary transition-colors">
+                        <ArrowUpRight size={16} />
+                      </span>
+                    </div>
+                    <div className="mt-3 flex flex-wrap gap-1.5">
+                      {p.tags.map((t) => (
+                        <span key={t} className="text-[11px] px-2 py-1 rounded-full bg-surface-soft text-muted-foreground">{t}</span>
+                      ))}
+                    </div>
+                  </div>
+                </Link>
+              ))}
         </div>
 
-        {limit && (
+        {limit && !loading && (
           <div className="mt-10 text-center">
             <Link to="/projects" className="btn-ghost">Browse all projects</Link>
           </div>
