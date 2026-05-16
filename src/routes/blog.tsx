@@ -121,7 +121,7 @@ function BlogIndex() {
               {featured && category === "All" && tag === "All" && !query && (
                 <Link to="/blog/$slug" params={{ slug: featured.slug }} className="card-cf grid md:grid-cols-2 overflow-hidden mb-12 group">
                   <div className="aspect-[16/10] md:aspect-auto overflow-hidden">
-                    <img src={featured.cover_image ?? ""} alt={featured.title} className="h-full w-full object-cover group-hover:scale-105 transition-transform duration-700" />
+                    <img src={featured.cover_image || "/og-default.jpg"} alt={featured.title} className="h-full w-full object-cover group-hover:scale-105 transition-transform duration-700" />
                   </div>
                   <div className="p-8 md:p-10 flex flex-col justify-center">
                     <span className="chip self-start">Featured · {featured.category}</span>
@@ -148,7 +148,7 @@ function BlogIndex() {
                   {pageItems.map((post) => (
                     <Link key={post.slug} to="/blog/$slug" params={{ slug: post.slug }} className="card-cf p-4 group">
                       <div className="aspect-[16/10] rounded-xl overflow-hidden">
-                        <img src={post.cover_image ?? ""} alt={post.title} className="h-full w-full object-cover group-hover:scale-105 transition-transform duration-700" loading="lazy" />
+                        <img src={post.cover_image || "/og-default.jpg"} alt={post.title} className="h-full w-full object-cover group-hover:scale-105 transition-transform duration-700" loading="lazy" />
                       </div>
                       <div className="p-3">
                         <div className="flex items-center gap-3 text-xs text-muted-foreground">

@@ -163,7 +163,7 @@ function BlogPost() {
                 {related.map((r: { slug: string; title: string; cover_image: string | null; category: string; reading_time: number }) => (
                   <Link key={r.slug} to="/blog/$slug" params={{ slug: r.slug }} className="card-cf p-4 group">
                     <div className="aspect-[16/10] rounded-xl overflow-hidden">
-                      <img src={r.cover_image ?? ""} alt={r.title} className="h-full w-full object-cover group-hover:scale-105 transition-transform duration-700" loading="lazy" />
+                      <img src={r.cover_image || "/og-default.jpg"} alt={r.title} className="h-full w-full object-cover group-hover:scale-105 transition-transform duration-700" loading="lazy" />
                     </div>
                     <div className="p-3">
                       <span className="chip !py-1 !px-2.5 !text-[11px]">{r.category}</span>
