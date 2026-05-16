@@ -8,12 +8,22 @@ export function BlogTOC({ toc }: Props) {
 
   useEffect(() => {
     if (toc.length === 0) return;
-    const headings = document.querySelectorAll("article h2, article h3");
+    const headings = Array.from(
+      document.querySelectorAll<HTMLElement>("article h2, article h3"),
+    );
+    const visible = new Set<string>();
+
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((e) => {
-          if (e.isIntersecting) setActiveId(e.target.id);
+          if (e.isIntersecting) {
+            visible.add(e.target.id);
+          } else {
+            visible.delete(e.target.id);
+          }
         });
+        const topmost = headings.find((h) => visible.has(h.id));
+        if (topmost) setActiveId(topmost.id);
       },
       { rootMargin: "0px 0px -60% 0px", threshold: 0 },
     );
