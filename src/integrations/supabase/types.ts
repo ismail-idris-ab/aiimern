@@ -125,6 +125,57 @@ export type Database = {
         }
         Relationships: []
       }
+      projects: {
+        Row: {
+          id: string
+          title: string
+          slug: string
+          excerpt: string | null
+          content: string | null
+          category: string
+          tags: string[]
+          cover_image: string | null
+          live_url: string | null
+          github_url: string | null
+          featured: boolean
+          status: string
+          sort_order: number
+          created_at: string
+        }
+        Insert: {
+          id?: string
+          title: string
+          slug: string
+          excerpt?: string | null
+          content?: string | null
+          category: string
+          tags?: string[]
+          cover_image?: string | null
+          live_url?: string | null
+          github_url?: string | null
+          featured?: boolean
+          status?: string
+          sort_order?: number
+          created_at?: string
+        }
+        Update: {
+          id?: string
+          title?: string
+          slug?: string
+          excerpt?: string | null
+          content?: string | null
+          category?: string
+          tags?: string[]
+          cover_image?: string | null
+          live_url?: string | null
+          github_url?: string | null
+          featured?: boolean
+          status?: string
+          sort_order?: number
+          created_at?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
