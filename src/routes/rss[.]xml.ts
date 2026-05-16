@@ -4,6 +4,10 @@ import { supabaseAdmin } from "@/integrations/supabase/client.server";
 
 const BASE_URL = "https://aiimanfolio.pro";
 
+function cdata(str: string): string {
+  return str.replace(/]]>/g, "]]]]><![CDATA[>");
+}
+
 export const Route = createFileRoute("/rss.xml")({
   server: {
     handlers: {
@@ -18,9 +22,9 @@ export const Route = createFileRoute("/rss.xml")({
           .map(
             (p) =>
               `  <item>
-    <title><![CDATA[${p.title}]]></title>
+    <title><![CDATA[${cdata(p.title)}]]></title>
     <link>${BASE_URL}/blog/${p.slug}</link>
-    <description><![CDATA[${p.excerpt ?? ""}]]></description>
+    <description><![CDATA[${cdata(p.excerpt ?? "")}]]></description>
     <pubDate>${new Date(p.published_at ?? Date.now()).toUTCString()}</pubDate>
     <author>${p.author_name ?? ""}</author>
     <category>${p.category ?? ""}</category>
