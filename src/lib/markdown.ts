@@ -53,18 +53,15 @@ export async function parseMarkdown(content: string): Promise<{ html: string; to
   // Use Marked class to avoid mutating global marked instance
   const renderer = new Renderer();
 
-  renderer.heading = function ({ tokens: headingTokens, depth }: Tokens.Heading): string {
-    // Render inline tokens to get the text content
-    const text = headingTokens
-      .map((t) => ("text" in t ? (t as { text: string }).text : ""))
-      .join("");
-    return `<h${depth} id="${slugify(text)}">${text}</h${depth}>\n`;
+  renderer.heading = function ({ text, depth }: Tokens.Heading): string {
+    const id = slugify(text);
+    const rendered = marked.parseInline(text) as string;
+    return `<h${depth} id="${id}">${rendered}</h${depth}>\n`;
   };
 
   renderer.code = function ({ text, lang }: Tokens.Code): string {
     const loadedLangs = hl.getLoadedLanguages();
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const language = lang && loadedLangs.includes(lang as any) ? lang : "text";
+    const language = lang && loadedLangs.includes(lang) ? lang : "text";
     return hl.codeToHtml(text, { lang: language, theme: "github-dark" });
   };
 
