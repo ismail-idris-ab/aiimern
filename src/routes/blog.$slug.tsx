@@ -27,18 +27,31 @@ export const Route = createFileRoute("/blog/$slug")({
   head: ({ params, loaderData }) => {
     const post = loaderData?.post;
     const title = post?.seo_title || post?.title || "Article";
-    const desc = post?.seo_description || post?.excerpt || "";
+    const desc = (post?.seo_description || post?.excerpt || "Read the latest essay on design, engineering, and shipping premium products.").slice(0, 200);
+    const image = post?.cover_image || "/og-default.jpg";
+    const url = `/blog/${params.slug}`;
     return {
       meta: [
         { title: `${title} — CraftFolio Pro` },
         { name: "description", content: desc },
         { property: "og:title", content: title },
         { property: "og:description", content: desc },
-        { property: "og:url", content: `/blog/${params.slug}` },
+        { property: "og:url", content: url },
         { property: "og:type", content: "article" },
-        ...(post?.cover_image ? [{ property: "og:image", content: post.cover_image }] : []),
+        { property: "og:image", content: image },
+        { property: "og:image:width", content: "1200" },
+        { property: "og:image:height", content: "640" },
+        { property: "og:image:alt", content: title },
+        ...(post?.published_at ? [{ property: "article:published_time", content: post.published_at }] : []),
+        ...(post?.author_name ? [{ property: "article:author", content: post.author_name }] : []),
+        ...(post?.category ? [{ property: "article:section", content: post.category }] : []),
+        ...((post?.tags ?? []).map((tag: string) => ({ property: "article:tag", content: tag }))),
+        { name: "twitter:card", content: "summary_large_image" },
+        { name: "twitter:title", content: title },
+        { name: "twitter:description", content: desc },
+        { name: "twitter:image", content: image },
       ],
-      links: [{ rel: "canonical", href: `/blog/${params.slug}` }],
+      links: [{ rel: "canonical", href: url }],
       scripts: post ? [{
         type: "application/ld+json",
         children: JSON.stringify({
@@ -46,9 +59,11 @@ export const Route = createFileRoute("/blog/$slug")({
           "@type": "BlogPosting",
           headline: post.title,
           description: post.excerpt,
-          image: post.cover_image,
+          image: image,
           datePublished: post.published_at,
+          dateModified: post.published_at,
           author: { "@type": "Person", name: post.author_name },
+          mainEntityOfPage: { "@type": "WebPage", "@id": url },
         }),
       }] : [],
     };
