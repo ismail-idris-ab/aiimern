@@ -1,5 +1,6 @@
 import { ArrowRight, Download, Sparkles } from "lucide-react";
 import { Link } from "@tanstack/react-router";
+import portrait from "@/assets/portrait.jpg";
 
 export function HeroSection() {
   return (
@@ -46,8 +47,8 @@ export function HeroSection() {
             <div className="absolute inset-0 rounded-[2rem] bg-gradient-to-br from-primary/30 via-transparent to-primary/10 blur-2xl" aria-hidden />
             <div className="relative h-full rounded-[2rem] overflow-hidden border border-[var(--border)] bg-surface">
               <img
-                src="https://images.unsplash.com/photo-1607746882042-944635dfe10e?w=900&q=80"
-                alt="Portrait of Alex Carter, senior product engineer"
+                src={portrait}
+                alt="Portrait of Aiiman, senior product engineer"
                 className="h-full w-full object-cover opacity-95"
                 loading="eager"
               />
