@@ -126,11 +126,9 @@ function BlogPost() {
               </div>
             </header>
 
-            {post.cover_image && (
-              <div className="mt-12 aspect-[16/9] rounded-3xl overflow-hidden border border-[var(--border)]">
-                <img src={post.cover_image} alt={post.title} className="h-full w-full object-cover" />
-              </div>
-            )}
+            <div className="mt-12 aspect-[16/9] rounded-3xl overflow-hidden border border-[var(--border)]">
+              <img src={post.cover_image || "/og-default.jpg"} alt={post.title} className="h-full w-full object-cover" />
+            </div>
 
             <div className="mt-14 prose-cf max-w-3xl mx-auto">
               {renderMarkdown(post.content || "")}
