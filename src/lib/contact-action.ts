@@ -1,7 +1,4 @@
-/// <reference types="@cloudflare/workers-types" />
 import { createServerFn } from "@tanstack/react-start";
-import { getWebRequest } from "@tanstack/react-start/server";
-import { getEvent } from "vinxi/http";
 import { z } from "zod";
 import { supabaseAdmin } from "@/integrations/supabase/client.server";
 
@@ -17,37 +14,24 @@ const schema = z.object({
   website: z.string().default(""),
 });
 
+type ContactInput = z.infer<typeof schema>;
 type ContactResult = { ok: true } | { ok: false; error: string };
 
 export const submitContact = createServerFn({ method: "POST" })
-  .validator(schema)
-  .handler(async ({ data }): Promise<ContactResult> => {
+  .inputValidator(schema)
+  .handler(async ({ data }: { data: ContactInput }): Promise<ContactResult> => {
     // 1. Honeypot — silently succeed so bots think it worked
     if (data.website) return { ok: true };
 
-    // 2. Cloudflare KV rate limiting (3 submissions per IP per hour)
-    try {
-      const webReq = getWebRequest();
-      const ip = webReq?.headers.get("cf-connecting-ip") ?? "unknown";
-      const event = getEvent();
-      const cfEnv = (event?.context as any)?.cloudflare?.env;
-      const kv: KVNamespace | undefined = cfEnv?.CONTACT_RATE_KV;
-
-      if (kv) {
-        const key = `contact_rate:${ip}`;
-        const raw = await kv.get(key);
-        const count = raw ? parseInt(raw, 10) : 0;
-        if (count >= 3) {
-          return { ok: false, error: "Too many requests. Please try again later." };
-        }
-        const now = new Date();
-        const secondsUntilNextHour = (60 - now.getMinutes()) * 60 - now.getSeconds();
-        await kv.put(key, String(count + 1), {
-          expirationTtl: secondsUntilNextHour > 0 ? secondsUntilNextHour : 3600,
-        });
-      }
-    } catch {
-      // KV unavailable in dev — skip rate limiting
+    // 2. Rate limiting — 3 submissions per email per hour via Supabase
+    const oneHourAgo = new Date(Date.now() - 3_600_000).toISOString();
+    const { count } = await supabaseAdmin
+      .from("contact_messages")
+      .select("*", { count: "exact", head: true })
+      .eq("email", data.email)
+      .gte("created_at", oneHourAgo);
+    if ((count ?? 0) >= 3) {
+      return { ok: false, error: "Too many requests. Please try again later." };
     }
 
     // 3. Insert to Supabase

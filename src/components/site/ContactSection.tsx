@@ -10,7 +10,7 @@ const schema = z.object({
   email: z.string().trim().email("Invalid email").max(255),
   subject: z.string().trim().max(150),
   message: z.string().trim().min(10, "Minimum 10 characters").max(2000),
-  website: z.string().default(""),
+  website: z.string(),
 });
 
 type FormData = z.infer<typeof schema>;

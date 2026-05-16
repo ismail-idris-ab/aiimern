@@ -22,16 +22,18 @@ export function ProjectsGrid({ limit, showFilters = true }: { limit?: number; sh
   const [filter, setFilter] = useState("All");
 
   useEffect(() => {
-    supabase
-      .from("projects")
-      .select("title, slug, excerpt, category, tags, cover_image, live_url, github_url, featured, sort_order")
-      .eq("status", "published")
-      .order("sort_order", { ascending: true })
-      .then(({ data }) => {
+    (async () => {
+      try {
+        const { data } = await supabase
+          .from("projects")
+          .select("title, slug, excerpt, category, tags, cover_image, live_url, github_url, featured, sort_order")
+          .eq("status", "published")
+          .order("sort_order", { ascending: true });
         setProjects(data ?? []);
+      } finally {
         setLoading(false);
-      })
-      .catch(() => setLoading(false));
+      }
+    })();
   }, []);
 
   const categories = useMemo(
