@@ -8,17 +8,30 @@ import { supabase } from "@/integrations/supabase/client";
 
 export const Route = createFileRoute("/blog")({
   component: BlogIndex,
-  head: () => ({
-    meta: [
-      { title: "Blog — CraftFolio Pro" },
-      { name: "description", content: "Essays on design, engineering, and shipping premium products." },
-      { property: "og:title", content: "Blog — CraftFolio Pro" },
-      { property: "og:description", content: "Essays on design, engineering, and shipping premium products." },
-      { property: "og:url", content: "/blog" },
-      { property: "og:type", content: "website" },
-    ],
-    links: [{ rel: "canonical", href: "/blog" }],
-  }),
+  head: () => {
+    const title = "Blog — CraftFolio Pro";
+    const description = "Essays on design, engineering, and shipping premium products. Tutorials, notes, and case studies from the craft of building software.";
+    const image = "/og-default.jpg";
+    return {
+      meta: [
+        { title },
+        { name: "description", content: description },
+        { property: "og:title", content: title },
+        { property: "og:description", content: description },
+        { property: "og:url", content: "/blog" },
+        { property: "og:type", content: "website" },
+        { property: "og:image", content: image },
+        { property: "og:image:width", content: "1200" },
+        { property: "og:image:height", content: "640" },
+        { property: "og:image:alt", content: "CraftFolio Pro — Essays on craft, design & engineering" },
+        { name: "twitter:card", content: "summary_large_image" },
+        { name: "twitter:title", content: title },
+        { name: "twitter:description", content: description },
+        { name: "twitter:image", content: image },
+      ],
+      links: [{ rel: "canonical", href: "/blog" }],
+    };
+  },
 });
 
 const PAGE_SIZE = 6;
@@ -108,7 +121,7 @@ function BlogIndex() {
               {featured && category === "All" && tag === "All" && !query && (
                 <Link to="/blog/$slug" params={{ slug: featured.slug }} className="card-cf grid md:grid-cols-2 overflow-hidden mb-12 group">
                   <div className="aspect-[16/10] md:aspect-auto overflow-hidden">
-                    <img src={featured.cover_image ?? ""} alt={featured.title} className="h-full w-full object-cover group-hover:scale-105 transition-transform duration-700" />
+                    <img src={featured.cover_image || "/og-default.jpg"} alt={featured.title} className="h-full w-full object-cover group-hover:scale-105 transition-transform duration-700" />
                   </div>
                   <div className="p-8 md:p-10 flex flex-col justify-center">
                     <span className="chip self-start">Featured · {featured.category}</span>
@@ -135,7 +148,7 @@ function BlogIndex() {
                   {pageItems.map((post) => (
                     <Link key={post.slug} to="/blog/$slug" params={{ slug: post.slug }} className="card-cf p-4 group">
                       <div className="aspect-[16/10] rounded-xl overflow-hidden">
-                        <img src={post.cover_image ?? ""} alt={post.title} className="h-full w-full object-cover group-hover:scale-105 transition-transform duration-700" loading="lazy" />
+                        <img src={post.cover_image || "/og-default.jpg"} alt={post.title} className="h-full w-full object-cover group-hover:scale-105 transition-transform duration-700" loading="lazy" />
                       </div>
                       <div className="p-3">
                         <div className="flex items-center gap-3 text-xs text-muted-foreground">
