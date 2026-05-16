@@ -9,7 +9,7 @@ import { supabase } from "@/integrations/supabase/client";
 export const Route = createFileRoute("/blog")({
   component: BlogIndex,
   head: () => {
-    const title = "Blog — CraftFolio Pro";
+    const title = "Blog — AiimanFolio Pro";
     const description = "Essays on design, engineering, and shipping premium products. Tutorials, notes, and case studies from the craft of building software.";
     const image = "/og-default.jpg";
     return {
@@ -23,7 +23,7 @@ export const Route = createFileRoute("/blog")({
         { property: "og:image", content: image },
         { property: "og:image:width", content: "1200" },
         { property: "og:image:height", content: "640" },
-        { property: "og:image:alt", content: "CraftFolio Pro — Essays on craft, design & engineering" },
+        { property: "og:image:alt", content: "AiimanFolio Pro — Essays on craft, design & engineering" },
         { name: "twitter:card", content: "summary_large_image" },
         { name: "twitter:title", content: title },
         { name: "twitter:description", content: description },

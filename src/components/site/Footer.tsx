@@ -11,7 +11,7 @@ export function Footer() {
               <Sparkles size={18} strokeWidth={2.5} />
             </span>
             <span className="font-display text-lg font-semibold">
-              CraftFolio<span className="gold-text">.Pro</span>
+              AiimanFolio<span className="gold-text">.Pro</span>
             </span>
           </Link>
           <p className="mt-4 text-sm text-muted-foreground max-w-sm leading-relaxed">
@@ -53,7 +53,7 @@ export function Footer() {
       </div>
       <div className="border-t border-[var(--border)]">
         <div className="container-cf py-6 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-muted-foreground">
-          <p>© {new Date().getFullYear()} CraftFolio Pro. Crafted with care.</p>
+          <p>© {new Date().getFullYear()} AiimanFolio Pro. Crafted with care.</p>
           <p>Built on TanStack Start &amp; Lovable Cloud.</p>
         </div>
       </div>

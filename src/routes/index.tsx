@@ -16,9 +16,9 @@ export const Route = createFileRoute("/")({
   component: HomePage,
   head: () => ({
     meta: [
-      { title: "CraftFolio Pro — Premium Portfolio & Blog" },
+      { title: "AiimanFolio Pro — Premium Portfolio & Blog" },
       { name: "description", content: "Senior product engineer crafting premium digital experiences. Portfolio, projects, and writing." },
-      { property: "og:title", content: "CraftFolio Pro — Premium Portfolio & Blog" },
+      { property: "og:title", content: "AiimanFolio Pro — Premium Portfolio & Blog" },
       { property: "og:description", content: "Senior product engineer crafting premium digital experiences." },
       { property: "og:url", content: "/" },
       { property: "og:type", content: "website" },
