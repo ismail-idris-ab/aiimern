@@ -40,7 +40,7 @@ function CounterNumber({
 
   useEffect(() => {
     if (trigger) count.set(value);
-  }, [trigger, value, count]);
+  }, [trigger, value]); // count is a stable MotionValue ref — omitted intentionally
 
   return (
     <div className="text-4xl md:text-5xl font-display font-semibold gradient-text">
