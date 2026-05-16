@@ -5,6 +5,10 @@ import { getEvent } from "vinxi/http";
 import { z } from "zod";
 import { supabaseAdmin } from "@/integrations/supabase/client.server";
 
+function esc(s: string): string {
+  return s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+}
+
 const schema = z.object({
   name: z.string().trim().min(1).max(100),
   email: z.string().trim().email().max(255),
@@ -69,7 +73,7 @@ export const submitContact = createServerFn({ method: "POST" })
           from: "noreply@aiimanfolio.pro",
           to: notifEmail,
           subject: `New contact: ${data.subject || "General inquiry"}`,
-          html: `<p><strong>From:</strong> ${data.name} &lt;${data.email}&gt;</p><p><strong>Subject:</strong> ${data.subject || "General inquiry"}</p><p><strong>Message:</strong></p><p>${data.message.replace(/\n/g, "<br>")}</p>`,
+          html: `<p><strong>From:</strong> ${esc(data.name)} &lt;${esc(data.email)}&gt;</p><p><strong>Subject:</strong> ${esc(data.subject || "General inquiry")}</p><p><strong>Message:</strong></p><p>${esc(data.message).replace(/\n/g, "<br>")}</p>`,
         }),
       }).catch(() => {});
     }
