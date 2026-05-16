@@ -30,7 +30,8 @@ export function ProjectsGrid({ limit, showFilters = true }: { limit?: number; sh
       .then(({ data }) => {
         setProjects(data ?? []);
         setLoading(false);
-      });
+      })
+      .catch(() => setLoading(false));
   }, []);
 
   const categories = useMemo(
