@@ -3,7 +3,7 @@ import type {} from "@tanstack/react-start";
 import { supabaseAdmin } from "@/integrations/supabase/client.server";
 
 // TODO: replace with your project URL once a project name or custom domain is set.
-const BASE_URL = "";
+const BASE_URL = "https://aiimanfolio.pro";
 
 export const Route = createFileRoute("/sitemap.xml")({
   server: {
