@@ -32,7 +32,7 @@ export const Route = createFileRoute("/blog/$slug")({
     const url = `/blog/${params.slug}`;
     return {
       meta: [
-        { title: `${title} — CraftFolio Pro` },
+        { title: `${title} — AiimanFolio Pro` },
         { name: "description", content: desc },
         { property: "og:title", content: title },
         { property: "og:description", content: desc },

@@ -7,9 +7,9 @@ export const Route = createFileRoute("/projects")({
   component: ProjectsPage,
   head: () => ({
     meta: [
-      { title: "Projects — CraftFolio Pro" },
+      { title: "Projects — AiimanFolio Pro" },
       { name: "description", content: "A selection of work spanning product design, web apps, and brand systems." },
-      { property: "og:title", content: "Projects — CraftFolio Pro" },
+      { property: "og:title", content: "Projects — AiimanFolio Pro" },
       { property: "og:description", content: "A selection of work spanning product design, web apps, and brand systems." },
       { property: "og:url", content: "/projects" },
     ],
