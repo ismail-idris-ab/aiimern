@@ -6,8 +6,8 @@ import { Footer } from "@/components/site/Footer";
 import { BlogReadingProgress } from "@/components/site/BlogReadingProgress";
 import { BlogTOC } from "@/components/site/BlogTOC";
 import { BlogNewsletterCard } from "@/components/site/BlogNewsletterCard";
-import { parseMarkdown } from "@/lib/markdown";
-import type { TocItem } from "@/lib/markdown";
+import { parseMarkdown } from "@/lib/markdown.server";
+import type { TocItem } from "@/lib/markdown.server";
 import { optimizeImage, imageSrcSet } from "@/lib/image";
 import { supabase } from "@/integrations/supabase/client";
 

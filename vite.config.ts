@@ -10,8 +10,4 @@ export default defineConfig({
   tanstackStart: {
     server: { entry: "server" },
   },
-  ssr: {
-    // shiki uses .wasm — let Node.js resolve it at runtime instead of Vite bundling it
-    external: ["shiki"],
-  },
 });

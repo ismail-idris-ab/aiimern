@@ -2,7 +2,7 @@ import { createFileRoute, Link, redirect } from "@tanstack/react-router";
 import { ArrowLeft, ExternalLink, Github } from "lucide-react";
 import { Navbar } from "@/components/site/Navbar";
 import { Footer } from "@/components/site/Footer";
-import { parseMarkdown } from "@/lib/markdown";
+import { parseMarkdown } from "@/lib/markdown.server";
 import { optimizeImage, imageSrcSet } from "@/lib/image";
 import { supabase } from "@/integrations/supabase/client";
 
