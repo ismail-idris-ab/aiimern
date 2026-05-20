@@ -43,7 +43,7 @@ function AdminBlogList() {
     <div>
       <div className="flex items-center justify-between mb-8">
         <h1 className="text-3xl font-display font-semibold">Blog Posts</h1>
-        <Link to="/admin/blog_/new" className="btn-gold">
+        <Link to="/admin/blog/new" className="btn-gold">
           <Plus size={16} /> New post
         </Link>
       </div>
@@ -94,7 +94,7 @@ function AdminBlogList() {
                   <td className="p-4">
                     <div className="flex items-center gap-2">
                       <Link
-                        to="/admin/blog_/$id/edit"
+                        to="/admin/blog/$id/edit"
                         params={{ id: p.id }}
                         className="btn-ghost !py-1.5 !px-3 !text-xs flex items-center gap-1.5"
                       >

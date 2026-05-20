@@ -5,6 +5,7 @@ import { Search, Calendar, Clock, ArrowRight, Inbox } from "lucide-react";
 import { Navbar } from "@/components/site/Navbar";
 import { Footer } from "@/components/site/Footer";
 import { supabase } from "@/integrations/supabase/client";
+import { optimizeImage, imageSrcSet } from "@/lib/image";
 
 export const Route = createFileRoute("/blog")({
   component: BlogIndex,
@@ -120,8 +121,15 @@ function BlogIndex() {
             <>
               {featured && category === "All" && tag === "All" && !query && (
                 <Link to="/blog/$slug" params={{ slug: featured.slug }} className="card-cf grid md:grid-cols-2 overflow-hidden mb-12 group">
-                  <div className="aspect-[16/10] md:aspect-auto overflow-hidden">
-                    <img src={featured.cover_image || "/og-default.jpg"} alt={featured.title} className="h-full w-full object-cover group-hover:scale-105 transition-transform duration-700" />
+                  <div className="aspect-[2/1] md:aspect-auto overflow-hidden">
+                    <img
+                    src={optimizeImage(featured.cover_image, 900)}
+                    srcSet={imageSrcSet(featured.cover_image, [600, 900, 1200])}
+                    sizes="(max-width: 768px) 100vw, 50vw"
+                    alt={featured.title}
+                    className="h-full w-full object-cover group-hover:scale-105 transition-transform duration-700"
+                    fetchpriority="high"
+                  />
                   </div>
                   <div className="p-8 md:p-10 flex flex-col justify-center">
                     <span className="chip self-start">Featured · {featured.category}</span>
@@ -147,8 +155,15 @@ function BlogIndex() {
                 <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
                   {pageItems.map((post) => (
                     <Link key={post.slug} to="/blog/$slug" params={{ slug: post.slug }} className="card-cf p-4 group">
-                      <div className="aspect-[16/10] rounded-xl overflow-hidden">
-                        <img src={post.cover_image || "/og-default.jpg"} alt={post.title} className="h-full w-full object-cover group-hover:scale-105 transition-transform duration-700" loading="lazy" />
+                      <div className="aspect-[2/1] rounded-xl overflow-hidden">
+                        <img
+                          src={optimizeImage(post.cover_image, 600)}
+                          srcSet={imageSrcSet(post.cover_image, [400, 600, 800])}
+                          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                          alt={post.title}
+                          className="h-full w-full object-cover group-hover:scale-105 transition-transform duration-700"
+                          loading="lazy"
+                        />
                       </div>
                       <div className="p-3">
                         <div className="flex items-center gap-3 text-xs text-muted-foreground">

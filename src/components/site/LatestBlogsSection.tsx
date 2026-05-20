@@ -2,6 +2,7 @@ import { Link } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
 import { ArrowUpRight, Calendar, Clock } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
+import { optimizeImage, imageSrcSet } from "@/lib/image";
 
 export function LatestBlogsSection() {
   const { data: posts, isLoading } = useQuery({
@@ -49,7 +50,14 @@ export function LatestBlogsSection() {
               className="card-cf p-4 group"
             >
               <div className="aspect-[16/10] rounded-xl overflow-hidden">
-                <img src={post.cover_image ?? ""} alt={post.title} className="h-full w-full object-cover group-hover:scale-105 transition-transform duration-700" loading="lazy" />
+                <img
+                  src={optimizeImage(post.cover_image, 800)}
+                  srcSet={imageSrcSet(post.cover_image)}
+                  sizes="(max-width: 768px) 100vw, 33vw"
+                  alt={post.title}
+                  className="h-full w-full object-cover group-hover:scale-105 transition-transform duration-700"
+                  loading="lazy"
+                />
               </div>
               <div className="p-3">
                 <div className="flex items-center gap-3 text-xs text-muted-foreground">

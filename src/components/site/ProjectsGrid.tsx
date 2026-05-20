@@ -2,6 +2,7 @@ import { Link } from "@tanstack/react-router";
 import { useMemo, useState, useEffect } from "react";
 import { ArrowUpRight } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
+import { optimizeImage, imageSrcSet } from "@/lib/image";
 
 export type Project = {
   title: string;
@@ -16,12 +17,13 @@ export type Project = {
   sort_order: number;
 };
 
-export function ProjectsGrid({ limit, showFilters = true }: { limit?: number; showFilters?: boolean }) {
-  const [projects, setProjects] = useState<Project[]>([]);
-  const [loading, setLoading] = useState(true);
+export function ProjectsGrid({ limit, showFilters = true, initialProjects }: { limit?: number; showFilters?: boolean; initialProjects?: Project[] }) {
+  const [projects, setProjects] = useState<Project[]>(initialProjects ?? []);
+  const [loading, setLoading] = useState(!initialProjects);
   const [filter, setFilter] = useState("All");
 
   useEffect(() => {
+    if (initialProjects) return;
     (async () => {
       try {
         const { data } = await supabase
@@ -34,7 +36,7 @@ export function ProjectsGrid({ limit, showFilters = true }: { limit?: number; sh
         setLoading(false);
       }
     })();
-  }, []);
+  }, [initialProjects]);
 
   const categories = useMemo(
     () => ["All", ...Array.from(new Set(projects.map((p) => p.category)))],
@@ -97,10 +99,12 @@ export function ProjectsGrid({ limit, showFilters = true }: { limit?: number; sh
                   params={{ slug: p.slug }}
                   className="card-cf overflow-hidden group block"
                 >
-                  <div className="relative aspect-[4/3] overflow-hidden">
+                  <div className="relative aspect-[16/9] overflow-hidden">
                     {p.cover_image ? (
                       <img
-                        src={p.cover_image}
+                        src={optimizeImage(p.cover_image, 800)}
+                        srcSet={imageSrcSet(p.cover_image)}
+                        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
                         alt={p.title}
                         className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
                         loading="lazy"

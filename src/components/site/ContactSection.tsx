@@ -3,6 +3,7 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Mail, Phone, MapPin, Send, Loader2, Check } from "lucide-react";
+import { toast } from "sonner";
 import { submitContact } from "@/lib/contact-action";
 
 const schema = z.object({
@@ -30,14 +31,22 @@ export function ContactSection() {
 
   const onSubmit = async (values: FormData) => {
     setError(null);
-    const result = await submitContact({ data: values });
-    if (!result.ok) {
-      setError(result.error);
-      return;
+    try {
+      const result = await submitContact({ data: values });
+      if (!result.ok) {
+        setError(result.error);
+        toast.error(result.error ?? "Could not send message. Please try again.");
+        return;
+      }
+      setSent(true);
+      reset();
+      toast.success("Message sent! I'll get back to you within 24 hours.");
+      setTimeout(() => setSent(false), 6000);
+    } catch (err) {
+      const msg = err instanceof Error ? err.message : "Could not send message. Please try again.";
+      setError(msg);
+      toast.error(msg);
     }
-    setSent(true);
-    reset();
-    setTimeout(() => setSent(false), 6000);
   };
 
   return (
@@ -55,9 +64,9 @@ export function ContactSection() {
 
           <div className="mt-8 space-y-4">
             {[
-              { Icon: Mail, label: "Email", value: "hello@craftfolio.pro" },
-              { Icon: Phone, label: "Phone", value: "+1 (415) 555-0142" },
-              { Icon: MapPin, label: "Location", value: "Remote · San Francisco" },
+              { Icon: Mail, label: "Email", value: "ismailidris2222@yahoo.com" },
+              { Icon: Phone, label: "Phone", value: "+243 708 586 0986" },
+              { Icon: MapPin, label: "Location", value: "Remote · Nigeria" },
             ].map(({ Icon, label, value }) => (
               <div key={label} className="flex items-center gap-4">
                 <div className="grid place-items-center size-11 rounded-xl bg-primary/10 text-primary">
@@ -97,7 +106,7 @@ export function ContactSection() {
             <textarea {...register("message")} rows={6} className="cf-input resize-none" placeholder="Tell me a bit about your project, timeline, and budget…" />
           </Field>
 
-          {error && <p className="text-sm text-destructive">{error}</p>}
+          {error && <p className="text-sm text-destructive">Could not send. Please try again.</p>}
 
           <button type="submit" disabled={isSubmitting || sent} className="btn-gold w-full sm:w-auto disabled:opacity-60">
             {isSubmitting ? (

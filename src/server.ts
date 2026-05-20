@@ -66,12 +66,34 @@ async function normalizeCatastrophicSsrResponse(response: Response): Promise<Res
   return brandedErrorResponse();
 }
 
+function addCacheHeaders(response: Response, pathname: string): Response {
+  // Don't cache admin routes, server functions, or non-2xx responses
+  if (
+    response.status !== 200 ||
+    pathname.startsWith("/admin") ||
+    pathname.startsWith("/_server") ||
+    pathname.startsWith("/api")
+  ) {
+    return response;
+  }
+
+  const contentType = response.headers.get("content-type") ?? "";
+  if (!contentType.includes("text/html")) return response;
+
+  const headers = new Headers(response.headers);
+  // Edge CDN caches for 60s, serves stale for up to 24h while revalidating
+  headers.set("Cache-Control", "public, max-age=0, s-maxage=60, stale-while-revalidate=86400");
+  return new Response(response.body, { status: response.status, headers });
+}
+
 export default {
   async fetch(request: Request, env: unknown, ctx: unknown) {
     try {
       const handler = await getServerEntry();
       const response = await handler.fetch(request, env, ctx);
-      return await normalizeCatastrophicSsrResponse(response);
+      const normalized = await normalizeCatastrophicSsrResponse(response);
+      const { pathname } = new URL(request.url);
+      return addCacheHeaders(normalized, pathname);
     } catch (error) {
       console.error(error);
       return brandedErrorResponse();

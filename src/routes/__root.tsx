@@ -10,6 +10,8 @@ import {
 
 import { Toaster } from "@/components/ui/sonner";
 import appCss from "../styles.css?url";
+import "@fontsource-variable/inter";
+import "@fontsource-variable/space-grotesk";
 
 function NotFoundComponent() {
   return (
@@ -90,9 +92,6 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     ],
     links: [
       { rel: "stylesheet", href: appCss },
-      { rel: "preconnect", href: "https://fonts.googleapis.com" },
-      { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
-      { rel: "stylesheet", href: "https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" },
       {
         rel: "alternate",
         type: "application/rss+xml",

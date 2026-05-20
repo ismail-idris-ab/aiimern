@@ -1,4 +1,3 @@
-import { useState, useEffect } from "react";
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { Calendar, Clock, ArrowLeft, Twitter, Linkedin, Link as LinkIcon } from "lucide-react";
 import { toast } from "sonner";
@@ -9,9 +8,18 @@ import { BlogTOC } from "@/components/site/BlogTOC";
 import { BlogNewsletterCard } from "@/components/site/BlogNewsletterCard";
 import { parseMarkdown } from "@/lib/markdown";
 import type { TocItem } from "@/lib/markdown";
+import { optimizeImage, imageSrcSet } from "@/lib/image";
 import { supabase } from "@/integrations/supabase/client";
 
-export const Route = createFileRoute("/blog/$slug")({
+function splitContent(content: string): [string, string] {
+  if (content.length < 300) return [content, ""];
+  const mid = Math.floor(content.length / 2);
+  const splitIdx = content.indexOf("\n\n", mid);
+  if (splitIdx === -1) return [content, ""];
+  return [content.slice(0, splitIdx), content.slice(splitIdx + 2)];
+}
+
+export const Route = createFileRoute("/blog_/$slug")({
   loader: async ({ params }) => {
     const { data, error } = await supabase
       .from("blog_posts")
@@ -29,7 +37,19 @@ export const Route = createFileRoute("/blog/$slug")({
       .neq("slug", params.slug)
       .limit(3);
 
-    return { post: data, related: related ?? [] };
+    const [first, second] = splitContent(data.content || "");
+    const [a, b] = await Promise.all([
+      parseMarkdown(first),
+      second ? parseMarkdown(second) : Promise.resolve({ html: "", toc: [] as TocItem[] }),
+    ]);
+
+    return {
+      post: data,
+      related: related ?? [],
+      firstHtml: a.html,
+      secondHtml: b.html,
+      toc: [...a.toc, ...b.toc],
+    };
   },
   head: ({ params, loaderData }) => {
     const post = loaderData?.post;
@@ -117,31 +137,8 @@ export const Route = createFileRoute("/blog/$slug")({
   ),
 });
 
-function splitContent(content: string): [string, string] {
-  if (content.length < 300) return [content, ""];
-  const mid = Math.floor(content.length / 2);
-  const splitIdx = content.indexOf("\n\n", mid);
-  if (splitIdx === -1) return [content, ""];
-  return [content.slice(0, splitIdx), content.slice(splitIdx + 2)];
-}
-
 function BlogPost() {
-  const { post, related } = Route.useLoaderData();
-  const [firstHtml, setFirstHtml] = useState("");
-  const [secondHtml, setSecondHtml] = useState("");
-  const [toc, setToc] = useState<TocItem[]>([]);
-
-  useEffect(() => {
-    const [first, second] = splitContent(post.content || "");
-    Promise.all([
-      parseMarkdown(first),
-      second ? parseMarkdown(second) : Promise.resolve({ html: "", toc: [] as TocItem[] }),
-    ]).then(([a, b]) => {
-      setFirstHtml(a.html);
-      setSecondHtml(b.html);
-      setToc([...a.toc, ...b.toc]);
-    });
-  }, [post.content]);
+  const { post, related, firstHtml, secondHtml, toc } = Route.useLoaderData();
 
   const postUrl = `https://aiimanfolio.pro/blog/${post.slug}`;
   const encodedUrl = encodeURIComponent(postUrl);
@@ -153,7 +150,7 @@ function BlogPost() {
       <BlogReadingProgress />
       <main>
         <article className="pt-32">
-          <div className="container-cf max-w-4xl">
+          <div className="container-cf max-w-3xl">
             <Link
               to="/blog"
               className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-primary"
@@ -189,15 +186,18 @@ function BlogPost() {
 
             <div className="mt-12 aspect-[16/9] rounded-3xl overflow-hidden border border-[var(--border)]">
               <img
-                src={post.cover_image || "/og-default.jpg"}
+                src={optimizeImage(post.cover_image, 1200)}
+                srcSet={imageSrcSet(post.cover_image, [600, 900, 1200])}
+                sizes="(max-width: 768px) 100vw, 768px"
                 alt={post.title}
                 className="h-full w-full object-cover"
+                fetchpriority="high"
               />
             </div>
           </div>
 
           <div className="container-cf mt-14">
-            <div className="lg:grid lg:grid-cols-[1fr_260px] lg:gap-12 max-w-5xl mx-auto">
+            <div className="lg:grid lg:grid-cols-[1fr_240px] lg:gap-10 max-w-4xl mx-auto">
               <div>
                 <div className="prose-cf" dangerouslySetInnerHTML={{ __html: firstHtml }} />
                 <BlogNewsletterCard />
@@ -211,7 +211,7 @@ function BlogPost() {
 
           <div className="container-cf">
             {post.tags && post.tags.length > 0 && (
-              <div className="mt-12 max-w-5xl mx-auto flex flex-wrap gap-2">
+              <div className="mt-12 max-w-4xl mx-auto flex flex-wrap gap-2">
                 {post.tags.map((t: string) => (
                   <Link
                     key={t}
@@ -225,7 +225,7 @@ function BlogPost() {
               </div>
             )}
 
-            <div className="mt-10 max-w-5xl mx-auto pt-8 border-t border-[var(--border)] flex items-center justify-between">
+            <div className="mt-10 max-w-4xl mx-auto pt-8 border-t border-[var(--border)] flex items-center justify-between">
               <span className="text-sm text-muted-foreground">Share this article</span>
               <div className="flex gap-2">
                 <button
@@ -285,7 +285,9 @@ function BlogPost() {
                     >
                       <div className="aspect-[16/10] rounded-xl overflow-hidden">
                         <img
-                          src={r.cover_image || "/og-default.jpg"}
+                          src={optimizeImage(r.cover_image, 600)}
+                          srcSet={imageSrcSet(r.cover_image, [400, 600, 800])}
+                          sizes="(max-width: 768px) 100vw, 33vw"
                           alt={r.title}
                           className="h-full w-full object-cover group-hover:scale-105 transition-transform duration-700"
                           loading="lazy"

@@ -54,12 +54,19 @@ export const submitContact = createServerFn({ method: "POST" })
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          from: "noreply@aiimanfolio.pro",
+          from: "onboarding@resend.dev",
           to: notifEmail,
           subject: `New contact: ${data.subject || "General inquiry"}`,
           html: `<p><strong>From:</strong> ${esc(data.name)} &lt;${esc(data.email)}&gt;</p><p><strong>Subject:</strong> ${esc(data.subject || "General inquiry")}</p><p><strong>Message:</strong></p><p>${esc(data.message).replace(/\n/g, "<br>")}</p>`,
         }),
-      }).catch(() => {});
+      })
+        .then(async (res) => {
+          if (!res.ok) {
+            const body = await res.text();
+            console.error("[Resend] Failed to send notification:", res.status, body);
+          }
+        })
+        .catch((err) => console.error("[Resend] Network error:", err));
     }
 
     return { ok: true };

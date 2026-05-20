@@ -4,7 +4,7 @@ import { Navbar } from "@/components/site/Navbar";
 import { Footer } from "@/components/site/Footer";
 import { supabase } from "@/integrations/supabase/client";
 
-export const Route = createFileRoute("/blog/tag/$slug")({
+export const Route = createFileRoute("/blog_/tag/$slug")({
   loader: async ({ params }) => {
     const { data, error } = await supabase
       .from("blog_posts")

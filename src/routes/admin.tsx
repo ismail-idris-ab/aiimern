@@ -1,6 +1,6 @@
 import { createFileRoute, Outlet, Link, redirect, useNavigate } from "@tanstack/react-router";
 import { useRouterState } from "@tanstack/react-router";
-import { BookOpen, FolderOpen, LogOut } from "lucide-react";
+import { BookOpen, FolderOpen, LogOut, LayoutDashboard } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 
 export const Route = createFileRoute("/admin")({
@@ -34,6 +34,7 @@ function AdminLayout() {
   };
 
   const navLinks = [
+    { to: "/admin/", label: "Dashboard", Icon: LayoutDashboard },
     { to: "/admin/blog", label: "Blog Posts", Icon: BookOpen },
     { to: "/admin/projects", label: "Projects", Icon: FolderOpen },
   ];
@@ -52,7 +53,9 @@ function AdminLayout() {
         </div>
         <nav className="flex-1 p-4 space-y-1">
           {navLinks.map(({ to, label, Icon }) => {
-            const active = location.pathname.startsWith(to);
+            const active = to === "/admin/"
+              ? location.pathname === "/admin" || location.pathname === "/admin/"
+              : location.pathname.startsWith(to);
             return (
               <Link
                 key={to}

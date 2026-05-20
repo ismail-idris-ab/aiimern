@@ -17,13 +17,13 @@ import { Route as BlogRouteImport } from './routes/blog'
 import { Route as AdminRouteImport } from './routes/admin'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AdminIndexRouteImport } from './routes/admin.index'
-import { Route as ProjectsSlugRouteImport } from './routes/projects.$slug'
-import { Route as BlogSlugRouteImport } from './routes/blog.$slug'
+import { Route as ProjectsSlugRouteImport } from './routes/projects_.$slug'
+import { Route as BlogSlugRouteImport } from './routes/blog_.$slug'
 import { Route as AdminProjectsRouteImport } from './routes/admin.projects'
 import { Route as AdminLoginRouteImport } from './routes/admin.login'
 import { Route as AdminBlogRouteImport } from './routes/admin.blog'
-import { Route as BlogTagSlugRouteImport } from './routes/blog.tag.$slug'
-import { Route as BlogCategorySlugRouteImport } from './routes/blog.category.$slug'
+import { Route as BlogTagSlugRouteImport } from './routes/blog_.tag.$slug'
+import { Route as BlogCategorySlugRouteImport } from './routes/blog_.category.$slug'
 import { Route as AdminProjectsNewRouteImport } from './routes/admin.projects_.new'
 import { Route as AdminBlogNewRouteImport } from './routes/admin.blog_.new'
 import { Route as AdminProjectsIdEditRouteImport } from './routes/admin.projects_.$id.edit'
@@ -70,14 +70,14 @@ const AdminIndexRoute = AdminIndexRouteImport.update({
   getParentRoute: () => AdminRoute,
 } as any)
 const ProjectsSlugRoute = ProjectsSlugRouteImport.update({
-  id: '/$slug',
-  path: '/$slug',
-  getParentRoute: () => ProjectsRoute,
+  id: '/projects_/$slug',
+  path: '/projects/$slug',
+  getParentRoute: () => rootRouteImport,
 } as any)
 const BlogSlugRoute = BlogSlugRouteImport.update({
-  id: '/$slug',
-  path: '/$slug',
-  getParentRoute: () => BlogRoute,
+  id: '/blog_/$slug',
+  path: '/blog/$slug',
+  getParentRoute: () => rootRouteImport,
 } as any)
 const AdminProjectsRoute = AdminProjectsRouteImport.update({
   id: '/projects',
@@ -95,14 +95,14 @@ const AdminBlogRoute = AdminBlogRouteImport.update({
   getParentRoute: () => AdminRoute,
 } as any)
 const BlogTagSlugRoute = BlogTagSlugRouteImport.update({
-  id: '/tag/$slug',
-  path: '/tag/$slug',
-  getParentRoute: () => BlogRoute,
+  id: '/blog_/tag/$slug',
+  path: '/blog/tag/$slug',
+  getParentRoute: () => rootRouteImport,
 } as any)
 const BlogCategorySlugRoute = BlogCategorySlugRouteImport.update({
-  id: '/category/$slug',
-  path: '/category/$slug',
-  getParentRoute: () => BlogRoute,
+  id: '/blog_/category/$slug',
+  path: '/blog/category/$slug',
+  getParentRoute: () => rootRouteImport,
 } as any)
 const AdminProjectsNewRoute = AdminProjectsNewRouteImport.update({
   id: '/projects_/new',
@@ -128,9 +128,9 @@ const AdminBlogIdEditRoute = AdminBlogIdEditRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/admin': typeof AdminRouteWithChildren
-  '/blog': typeof BlogRouteWithChildren
+  '/blog': typeof BlogRoute
   '/contact': typeof ContactRoute
-  '/projects': typeof ProjectsRouteWithChildren
+  '/projects': typeof ProjectsRoute
   '/rss.xml': typeof RssDotxmlRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/admin/blog': typeof AdminBlogRoute
@@ -148,9 +148,9 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/blog': typeof BlogRouteWithChildren
+  '/blog': typeof BlogRoute
   '/contact': typeof ContactRoute
-  '/projects': typeof ProjectsRouteWithChildren
+  '/projects': typeof ProjectsRoute
   '/rss.xml': typeof RssDotxmlRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/admin/blog': typeof AdminBlogRoute
@@ -170,21 +170,21 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/admin': typeof AdminRouteWithChildren
-  '/blog': typeof BlogRouteWithChildren
+  '/blog': typeof BlogRoute
   '/contact': typeof ContactRoute
-  '/projects': typeof ProjectsRouteWithChildren
+  '/projects': typeof ProjectsRoute
   '/rss.xml': typeof RssDotxmlRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/admin/blog': typeof AdminBlogRoute
   '/admin/login': typeof AdminLoginRoute
   '/admin/projects': typeof AdminProjectsRoute
-  '/blog/$slug': typeof BlogSlugRoute
-  '/projects/$slug': typeof ProjectsSlugRoute
+  '/blog_/$slug': typeof BlogSlugRoute
+  '/projects_/$slug': typeof ProjectsSlugRoute
   '/admin/': typeof AdminIndexRoute
   '/admin/blog_/new': typeof AdminBlogNewRoute
   '/admin/projects_/new': typeof AdminProjectsNewRoute
-  '/blog/category/$slug': typeof BlogCategorySlugRoute
-  '/blog/tag/$slug': typeof BlogTagSlugRoute
+  '/blog_/category/$slug': typeof BlogCategorySlugRoute
+  '/blog_/tag/$slug': typeof BlogTagSlugRoute
   '/admin/blog_/$id/edit': typeof AdminBlogIdEditRoute
   '/admin/projects_/$id/edit': typeof AdminProjectsIdEditRoute
 }
@@ -242,13 +242,13 @@ export interface FileRouteTypes {
     | '/admin/blog'
     | '/admin/login'
     | '/admin/projects'
-    | '/blog/$slug'
-    | '/projects/$slug'
+    | '/blog_/$slug'
+    | '/projects_/$slug'
     | '/admin/'
     | '/admin/blog_/new'
     | '/admin/projects_/new'
-    | '/blog/category/$slug'
-    | '/blog/tag/$slug'
+    | '/blog_/category/$slug'
+    | '/blog_/tag/$slug'
     | '/admin/blog_/$id/edit'
     | '/admin/projects_/$id/edit'
   fileRoutesById: FileRoutesById
@@ -256,11 +256,15 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AdminRoute: typeof AdminRouteWithChildren
-  BlogRoute: typeof BlogRouteWithChildren
+  BlogRoute: typeof BlogRoute
   ContactRoute: typeof ContactRoute
-  ProjectsRoute: typeof ProjectsRouteWithChildren
+  ProjectsRoute: typeof ProjectsRoute
   RssDotxmlRoute: typeof RssDotxmlRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
+  BlogSlugRoute: typeof BlogSlugRoute
+  ProjectsSlugRoute: typeof ProjectsSlugRoute
+  BlogCategorySlugRoute: typeof BlogCategorySlugRoute
+  BlogTagSlugRoute: typeof BlogTagSlugRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -321,19 +325,19 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminIndexRouteImport
       parentRoute: typeof AdminRoute
     }
-    '/projects/$slug': {
-      id: '/projects/$slug'
-      path: '/$slug'
+    '/projects_/$slug': {
+      id: '/projects_/$slug'
+      path: '/projects/$slug'
       fullPath: '/projects/$slug'
       preLoaderRoute: typeof ProjectsSlugRouteImport
-      parentRoute: typeof ProjectsRoute
+      parentRoute: typeof rootRouteImport
     }
-    '/blog/$slug': {
-      id: '/blog/$slug'
-      path: '/$slug'
+    '/blog_/$slug': {
+      id: '/blog_/$slug'
+      path: '/blog/$slug'
       fullPath: '/blog/$slug'
       preLoaderRoute: typeof BlogSlugRouteImport
-      parentRoute: typeof BlogRoute
+      parentRoute: typeof rootRouteImport
     }
     '/admin/projects': {
       id: '/admin/projects'
@@ -356,19 +360,19 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminBlogRouteImport
       parentRoute: typeof AdminRoute
     }
-    '/blog/tag/$slug': {
-      id: '/blog/tag/$slug'
-      path: '/tag/$slug'
+    '/blog_/tag/$slug': {
+      id: '/blog_/tag/$slug'
+      path: '/blog/tag/$slug'
       fullPath: '/blog/tag/$slug'
       preLoaderRoute: typeof BlogTagSlugRouteImport
-      parentRoute: typeof BlogRoute
+      parentRoute: typeof rootRouteImport
     }
-    '/blog/category/$slug': {
-      id: '/blog/category/$slug'
-      path: '/category/$slug'
+    '/blog_/category/$slug': {
+      id: '/blog_/category/$slug'
+      path: '/blog/category/$slug'
       fullPath: '/blog/category/$slug'
       preLoaderRoute: typeof BlogCategorySlugRouteImport
-      parentRoute: typeof BlogRoute
+      parentRoute: typeof rootRouteImport
     }
     '/admin/projects_/new': {
       id: '/admin/projects_/new'
@@ -425,40 +429,18 @@ const AdminRouteChildren: AdminRouteChildren = {
 
 const AdminRouteWithChildren = AdminRoute._addFileChildren(AdminRouteChildren)
 
-interface BlogRouteChildren {
-  BlogSlugRoute: typeof BlogSlugRoute
-  BlogCategorySlugRoute: typeof BlogCategorySlugRoute
-  BlogTagSlugRoute: typeof BlogTagSlugRoute
-}
-
-const BlogRouteChildren: BlogRouteChildren = {
-  BlogSlugRoute: BlogSlugRoute,
-  BlogCategorySlugRoute: BlogCategorySlugRoute,
-  BlogTagSlugRoute: BlogTagSlugRoute,
-}
-
-const BlogRouteWithChildren = BlogRoute._addFileChildren(BlogRouteChildren)
-
-interface ProjectsRouteChildren {
-  ProjectsSlugRoute: typeof ProjectsSlugRoute
-}
-
-const ProjectsRouteChildren: ProjectsRouteChildren = {
-  ProjectsSlugRoute: ProjectsSlugRoute,
-}
-
-const ProjectsRouteWithChildren = ProjectsRoute._addFileChildren(
-  ProjectsRouteChildren,
-)
-
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AdminRoute: AdminRouteWithChildren,
-  BlogRoute: BlogRouteWithChildren,
+  BlogRoute: BlogRoute,
   ContactRoute: ContactRoute,
-  ProjectsRoute: ProjectsRouteWithChildren,
+  ProjectsRoute: ProjectsRoute,
   RssDotxmlRoute: RssDotxmlRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
+  BlogSlugRoute: BlogSlugRoute,
+  ProjectsSlugRoute: ProjectsSlugRoute,
+  BlogCategorySlugRoute: BlogCategorySlugRoute,
+  BlogTagSlugRoute: BlogTagSlugRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

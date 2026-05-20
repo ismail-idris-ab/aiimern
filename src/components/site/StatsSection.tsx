@@ -15,10 +15,10 @@ type Stat = {
 };
 
 const stats: Stat[] = [
-  { value: 120, suffix: "+", label: "Projects Delivered" },
-  { value: 40,  suffix: "+", label: "Happy Clients" },
-  { value: 8,   suffix: "+", label: "Years Experience" },
-  { value: 12,  suffix: "",  label: "Industry Awards" },
+  { value: 12, suffix: "+", label: "Projects Delivered" },
+  { value: 8, suffix: "+", label: "Happy Clients" },
+  { value: 4, suffix: "+", label: "Years Experience" },
+  { value: 2, suffix: "", label: "Industry Awards" },
 ];
 
 function CounterNumber({

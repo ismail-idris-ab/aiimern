@@ -43,7 +43,7 @@ function AdminProjectList() {
     <div>
       <div className="flex items-center justify-between mb-8">
         <h1 className="text-3xl font-display font-semibold">Projects</h1>
-        <Link to="/admin/projects_/new" className="btn-gold">
+        <Link to="/admin/projects/new" className="btn-gold">
           <Plus size={16} /> New project
         </Link>
       </div>
@@ -94,7 +94,7 @@ function AdminProjectList() {
                   <td className="p-4">
                     <div className="flex items-center gap-2">
                       <Link
-                        to="/admin/projects_/$id/edit"
+                        to="/admin/projects/$id/edit"
                         params={{ id: p.id }}
                         className="btn-ghost !py-1.5 !px-3 !text-xs flex items-center gap-1.5"
                       >
