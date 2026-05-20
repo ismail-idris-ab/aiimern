@@ -4,12 +4,14 @@
 //     React/TanStack dedupe, error logger plugins, and sandbox detection (port/host/strictPort).
 // cloudflare: false disables the Cloudflare Workers build target (replaced by Vercel).
 import { defineConfig } from "@lovable.dev/vite-tanstack-config";
-import wasm from "vite-plugin-wasm";
 
 export default defineConfig({
   cloudflare: false,
   tanstackStart: {
     server: { entry: "server" },
   },
-  plugins: [wasm()],
+  ssr: {
+    // shiki uses .wasm — let Node.js resolve it at runtime instead of Vite bundling it
+    external: ["shiki"],
+  },
 });
