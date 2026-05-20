@@ -1,26 +1,29 @@
 import { marked, Marked, Renderer, type Tokens } from "marked";
-import { createHighlighter, type Highlighter } from "shiki";
+import { createHighlighterCore } from "shiki/core";
+import { createJavaScriptRegexEngine } from "shiki/engine/javascript";
+import type { HighlighterCore } from "shiki/core";
 
 export type TocItem = { id: string; text: string; depth: 2 | 3 };
 
-let highlighter: Highlighter | null = null;
+let highlighter: HighlighterCore | null = null;
 
-async function getHighlighter(): Promise<Highlighter> {
+async function getHighlighter(): Promise<HighlighterCore> {
   if (!highlighter) {
-    highlighter = await createHighlighter({
-      themes: ["github-dark"],
+    highlighter = await createHighlighterCore({
+      themes: [import("shiki/themes/github-dark.mjs")],
       langs: [
-        "javascript",
-        "typescript",
-        "tsx",
-        "jsx",
-        "python",
-        "css",
-        "html",
-        "json",
-        "bash",
-        "sql",
+        import("shiki/langs/javascript.mjs"),
+        import("shiki/langs/typescript.mjs"),
+        import("shiki/langs/tsx.mjs"),
+        import("shiki/langs/jsx.mjs"),
+        import("shiki/langs/python.mjs"),
+        import("shiki/langs/css.mjs"),
+        import("shiki/langs/html.mjs"),
+        import("shiki/langs/json.mjs"),
+        import("shiki/langs/bash.mjs"),
+        import("shiki/langs/sql.mjs"),
       ],
+      engine: createJavaScriptRegexEngine(),
     });
   }
   return highlighter;
