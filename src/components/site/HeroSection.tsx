@@ -14,8 +14,8 @@ import portrait from "@/assets/portrait.jpg";
 export function HeroSection() {
   return (
     <section className="relative section-pad pt-32 md:pt-40 overflow-hidden">
-      <div className="container-cf grid lg:grid-cols-12 gap-12 items-center">
-        <div className="lg:col-span-7 fade-up">
+      <div className="container-cf grid md:grid-cols-12 gap-12 items-center">
+        <div className="md:col-span-7 fade-up">
           <span className="chip">
             <Sparkles size={12} /> Available for new projects
           </span>
@@ -30,7 +30,7 @@ export function HeroSection() {
             <Link to="/projects" className="btn-gold">
               View My Work <ArrowRight size={16} />
             </Link>
-            <a href="#" className="btn-ghost">
+            <a href="/Ismail_Idris_CV (2).pdf" download className="btn-ghost">
               <Download size={16} /> Download CV
             </a>
           </div>
@@ -76,7 +76,7 @@ export function HeroSection() {
           </div>
         </div>
 
-        <div className="lg:col-span-5 relative fade-up">
+        <div className="md:col-span-5 relative fade-up">
           <div className="relative aspect-[4/5] max-w-md mx-auto">
             <div
               className="absolute inset-0 rounded-[2rem] bg-gradient-to-br from-primary/30 via-transparent to-primary/10 blur-2xl"
