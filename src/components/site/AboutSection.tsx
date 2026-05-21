@@ -38,10 +38,10 @@ export function AboutSection() {
           <div className="space-y-8">
             <div className="space-y-4 text-muted-foreground leading-relaxed text-[1.05rem]">
               <p>
-                I'm Ismail, a Full-Stack Developer based in Lagos, Nigeria, specializing in the MERN
-                stack — MongoDB, Express.js, React, and Node.js. I build purposeful web applications
-                that solve real problems, with a particular focus on products tailored to Nigerian
-                and African markets.
+                I'm Ismail, a Full-Stack Developer based in Kaduna, Nigeria, specializing in the
+                MERN stack — MongoDB, Express.js, React, and Node.js. I build purposeful web
+                applications that solve real problems, with a particular focus on products tailored
+                to Nigerian and African markets.
               </p>
               <p>
                 My work sits at the intersection of clean engineering and thoughtful product design.
@@ -50,7 +50,8 @@ export function AboutSection() {
                 from database schema to the last pixel on screen.
               </p>
               <p>
-                My goal is to keep improving as a developer, build high-quality projects, and create digital solutions that are useful, professional, and impactful.
+                My goal is to keep improving as a developer, build high-quality projects, and create
+                digital solutions that are useful, professional, and impactful.
               </p>
               <p>
                 Currently, I'm building Rotara, a fintech-adjacent platform for rotating group
