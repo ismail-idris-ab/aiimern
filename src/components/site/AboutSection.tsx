@@ -1,38 +1,81 @@
 import { Briefcase, Code2, Award } from "lucide-react";
 
+const stats = [
+  { value: "4+", label: "Years Experience" },
+  { value: "12+", label: "Projects Shipped" },
+  { value: "6+", label: "Happy Clients" },
+  { value: "100%", label: "Remote Ready" },
+];
+
+const cards = [
+  { Icon: Briefcase, label: "Senior Engineer", sub: "Studio Lead" },
+  { Icon: Code2, label: "Full-Stack", sub: "TS · React · Node" },
+  { Icon: Award, label: "Award-winning", sub: "Awwwards × 3" },
+];
+
 export function AboutSection() {
   return (
-    <section className="section-pad" id="about">
-      <div className="container-cf grid lg:grid-cols-12 gap-12">
-        <div className="lg:col-span-5">
+    <section className="section-pad relative overflow-hidden" id="about">
+      <div
+        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[400px] rounded-full blur-3xl pointer-events-none"
+        style={{ background: "radial-gradient(ellipse, color-mix(in oklab, var(--primary) 8%, transparent), transparent 70%)" }}
+        aria-hidden
+      />
+
+      <div className="container-cf px-6 md:px-12 relative">
+        <div className="mb-12">
           <span className="chip">About me</span>
-          <h2 className="mt-4 text-4xl md:text-5xl font-display font-semibold leading-tight">
-            A product engineer with a <span className="gradient-text">designer's eye</span>.
+          <h2 className="mt-4 text-4xl md:text-5xl font-display font-semibold leading-tight max-w-2xl">
+            A fullstack developer with a{" "}
+            <span className="gradient-text">product mindset.</span>
           </h2>
         </div>
-        <div className="lg:col-span-7 space-y-5 text-muted-foreground leading-relaxed text-[1.05rem]">
-          <p>
-            For nearly a decade, I've helped startups and global brands turn complex
-            problems into clean, considered products. I lead with curiosity, ship with
-            craft, and treat every pixel as a deliberate choice.
-          </p>
-          <p>
-            My toolkit spans modern React, type-safe APIs, and motion design — but my
-            real obsession is the seam between engineering and storytelling.
-          </p>
 
-          <div className="grid sm:grid-cols-3 gap-4 pt-4">
-            {[
-              { Icon: Briefcase, label: "Senior Engineer", sub: "Studio Lead" },
-              { Icon: Code2, label: "Full-Stack", sub: "TS · React · Node" },
-              { Icon: Award, label: "Award-winning", sub: "Awwwards × 3" },
-            ].map(({ Icon, label, sub }) => (
-              <div key={label} className="card-cf p-5">
-                <div className="grid place-items-center size-10 rounded-xl bg-primary/10 text-primary mb-3">
-                  <Icon size={18} />
+        <div className="grid lg:grid-cols-2 gap-10 items-start">
+          {/* Left — bio + stats */}
+          <div className="space-y-8">
+            <div className="space-y-4 text-muted-foreground leading-relaxed text-[1.05rem]">
+              <p>
+                For nearly a decade, I've helped startups and global brands turn complex
+                problems into clean, considered products. I lead with curiosity, ship with
+                craft, and treat every pixel as a deliberate choice.
+              </p>
+              <p>
+                My toolkit spans modern React, type-safe APIs, and motion design — but my
+                real obsession is the seam between engineering and storytelling.
+              </p>
+            </div>
+
+            <div className="grid grid-cols-2 gap-4">
+              {stats.map(({ value, label }) => (
+                <div
+                  key={label}
+                  className="rounded-2xl border border-[var(--border)] bg-surface/40 p-5 backdrop-blur-sm"
+                >
+                  <div className="text-3xl font-display font-semibold gold-text">{value}</div>
+                  <div className="mt-1 text-xs uppercase tracking-widest text-muted-foreground">
+                    {label}
+                  </div>
                 </div>
-                <div className="font-medium text-foreground">{label}</div>
-                <div className="text-xs text-muted-foreground mt-1">{sub}</div>
+              ))}
+            </div>
+          </div>
+
+          {/* Right — feature cards */}
+          <div className="flex flex-col gap-4">
+            {cards.map(({ Icon, label, sub }) => (
+              <div
+                key={label}
+                className="card-cf group flex items-center gap-5 p-6"
+              >
+                <div className="grid shrink-0 place-items-center size-12 rounded-2xl bg-primary/10 text-primary transition-colors group-hover:bg-primary/20">
+                  <Icon size={20} />
+                </div>
+                <div className="flex-1 min-w-0">
+                  <div className="font-semibold text-foreground text-lg leading-tight">{label}</div>
+                  <div className="mt-0.5 text-sm text-muted-foreground">{sub}</div>
+                </div>
+                <div className="shrink-0 w-1 h-10 rounded-full bg-primary/20 transition-colors group-hover:bg-primary" />
               </div>
             ))}
           </div>
