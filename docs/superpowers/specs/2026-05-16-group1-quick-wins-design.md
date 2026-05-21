@@ -29,16 +29,16 @@ bun add framer-motion
 
 ```ts
 type Stat = {
-  value: number;   // numeric target (e.g. 120)
-  suffix: string;  // e.g. "+" or "" 
+  value: number; // numeric target (e.g. 120)
+  suffix: string; // e.g. "+" or ""
   label: string;
 };
 
 const stats: Stat[] = [
   { value: 120, suffix: "+", label: "Projects Delivered" },
-  { value: 40,  suffix: "+", label: "Happy Clients" },
-  { value: 8,   suffix: "+", label: "Years Experience" },
-  { value: 12,  suffix: "",  label: "Industry Awards" },
+  { value: 40, suffix: "+", label: "Happy Clients" },
+  { value: 8, suffix: "+", label: "Years Experience" },
+  { value: 12, suffix: "", label: "Industry Awards" },
 ];
 ```
 
@@ -118,9 +118,9 @@ One-line change. No other modifications.
 
 ## Files changed
 
-| File | Change |
-|---|---|
-| `package.json` / `bun.lock` | Add `framer-motion` |
-| `src/components/site/StatsSection.tsx` | Animated counters |
+| File                                    | Change              |
+| --------------------------------------- | ------------------- |
+| `package.json` / `bun.lock`             | Add `framer-motion` |
+| `src/components/site/StatsSection.tsx`  | Animated counters   |
 | `src/components/site/SkillsSection.tsx` | Animated skill bars |
-| `src/routes/sitemap[.]xml.ts` | Fix BASE_URL |
+| `src/routes/sitemap[.]xml.ts`           | Fix BASE_URL        |

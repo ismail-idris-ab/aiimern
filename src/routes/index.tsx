@@ -7,21 +7,41 @@ import { supabase } from "@/integrations/supabase/client";
 import type { Project } from "@/components/site/ProjectsGrid";
 
 // Below-fold sections lazy-loaded — not needed for first paint
-const AboutSection = lazy(() => import("@/components/site/AboutSection").then((m) => ({ default: m.AboutSection })));
-const SkillsSection = lazy(() => import("@/components/site/SkillsSection").then((m) => ({ default: m.SkillsSection })));
-const ServicesSection = lazy(() => import("@/components/site/ServicesSection").then((m) => ({ default: m.ServicesSection })));
-const StatsSection = lazy(() => import("@/components/site/StatsSection").then((m) => ({ default: m.StatsSection })));
-const ExperienceTimeline = lazy(() => import("@/components/site/ExperienceTimeline").then((m) => ({ default: m.ExperienceTimeline })));
-const ProjectsGrid = lazy(() => import("@/components/site/ProjectsGrid").then((m) => ({ default: m.ProjectsGrid })));
-const TestimonialsSection = lazy(() => import("@/components/site/TestimonialsSection").then((m) => ({ default: m.TestimonialsSection })));
-const LatestBlogsSection = lazy(() => import("@/components/site/LatestBlogsSection").then((m) => ({ default: m.LatestBlogsSection })));
-const ContactSection = lazy(() => import("@/components/site/ContactSection").then((m) => ({ default: m.ContactSection })));
+const AboutSection = lazy(() =>
+  import("@/components/site/AboutSection").then((m) => ({ default: m.AboutSection })),
+);
+const SkillsSection = lazy(() =>
+  import("@/components/site/SkillsSection").then((m) => ({ default: m.SkillsSection })),
+);
+const ServicesSection = lazy(() =>
+  import("@/components/site/ServicesSection").then((m) => ({ default: m.ServicesSection })),
+);
+const StatsSection = lazy(() =>
+  import("@/components/site/StatsSection").then((m) => ({ default: m.StatsSection })),
+);
+const ExperienceTimeline = lazy(() =>
+  import("@/components/site/ExperienceTimeline").then((m) => ({ default: m.ExperienceTimeline })),
+);
+const ProjectsGrid = lazy(() =>
+  import("@/components/site/ProjectsGrid").then((m) => ({ default: m.ProjectsGrid })),
+);
+const TestimonialsSection = lazy(() =>
+  import("@/components/site/TestimonialsSection").then((m) => ({ default: m.TestimonialsSection })),
+);
+const LatestBlogsSection = lazy(() =>
+  import("@/components/site/LatestBlogsSection").then((m) => ({ default: m.LatestBlogsSection })),
+);
+const ContactSection = lazy(() =>
+  import("@/components/site/ContactSection").then((m) => ({ default: m.ContactSection })),
+);
 
 export const Route = createFileRoute("/")({
   loader: async () => {
     const { data } = await supabase
       .from("projects")
-      .select("title, slug, excerpt, category, tags, cover_image, live_url, github_url, featured, sort_order")
+      .select(
+        "title, slug, excerpt, category, tags, cover_image, live_url, github_url, featured, sort_order",
+      )
       .eq("status", "published")
       .order("sort_order", { ascending: true })
       .limit(6);
@@ -29,8 +49,9 @@ export const Route = createFileRoute("/")({
   },
   component: HomePage,
   head: () => {
-    const title = "AiimanFolio.Pro — Premium Portfolio & Blog by Aiiman";
-    const description = "Senior product engineer crafting premium digital experiences. Explore selected projects, services, and writing on design, engineering, and shipping.";
+    const title = "Aiiman Ismail — Full-Stack Developer & Product Builder";
+    const description =
+      "I build scalable web applications and digital products — specializing in the MERN stack for modern African markets.";
     const image = "/og-default.jpg";
     return {
       meta: [
@@ -50,18 +71,20 @@ export const Route = createFileRoute("/")({
         { name: "twitter:image", content: image },
       ],
       links: [{ rel: "canonical", href: "/" }],
-      scripts: [{
-        type: "application/ld+json",
-        children: JSON.stringify({
-          "@context": "https://schema.org",
-          "@type": "Person",
-          name: "Aiiman",
-          jobTitle: "Senior Product Engineer",
-          url: "/",
-          sameAs: [],
-          worksFor: { "@type": "Organization", name: "AiimanFolio.Pro" },
-        }),
-      }],
+      scripts: [
+        {
+          type: "application/ld+json",
+          children: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "Person",
+            name: "Aiiman",
+            jobTitle: "Senior Product Engineer",
+            url: "/",
+            sameAs: [],
+            worksFor: { "@type": "Organization", name: "AiimanFolio.Pro" },
+          }),
+        },
+      ],
     };
   },
 });

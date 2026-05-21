@@ -75,9 +75,9 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "AiimanFolio.Pro — Premium Portfolio & Blog" },
-      { name: "description", content: "AiimanFolio.Pro — premium portfolio, projects, and writing by a senior product engineer crafting refined digital experiences." },
-      { name: "author", content: "AiimanFolio.Pro" },
+      { title: "Aiiman Ismail — Full-Stack Developer · Product Builder" },
+      { name: "description", content: "Full-Stack Developer · Product Builder · Lagos, Nigeria. Crafting purposeful web experiences from concept to deployment." },
+      { name: "author", content: "Aiiman Ismail" },
       { name: "theme-color", content: "#090B1F" },
       { property: "og:site_name", content: "AiimanFolio.Pro" },
       { property: "og:type", content: "website" },
