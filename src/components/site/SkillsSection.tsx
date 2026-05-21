@@ -1,9 +1,9 @@
 import { motion, useReducedMotion } from "framer-motion";
 
 const skills = [
-  { name: "Frontend Engineering", level: 96 },
+  { name: "Frontend Engineering", level: 90 },
   { name: "Product Design", level: 88 },
-  { name: "Backend & APIs", level: 84 },
+  { name: "Backend & APIs", level: 80 },
   { name: "Motion & Interaction", level: 80 },
   { name: "Design Systems", level: 92 },
   { name: "Performance & SEO", level: 86 },
@@ -18,8 +18,7 @@ export function SkillsSection() {
         <div className="max-w-2xl">
           <span className="chip">Expertise</span>
           <h2 className="mt-4 text-4xl md:text-5xl font-display font-semibold">
-            Skills sharpened over{" "}
-            <span className="gradient-text">years of shipping</span>.
+            Skills sharpened over <span className="gradient-text">years of shipping</span>.
           </h2>
         </div>
 

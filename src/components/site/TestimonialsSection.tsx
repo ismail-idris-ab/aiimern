@@ -3,16 +3,16 @@ import { Quote } from "lucide-react";
 const testimonials = [
   {
     quote:
-      "Alex shipped a brand and product experience that genuinely moved the needle. Our trial-to-paid conversion jumped 34%.",
+      "Ismail Idris shipped a brand and product experience that genuinely moved the needle. Our trial-to-paid conversion jumped 34%.",
     name: "Abba Aliyu",
     title: "Founder, SahlearnTech",
     avatar: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=200&q=80",
   },
   {
     quote:
-      "The kind of partner you wish every project had — fast, opinionated, and obsessed with the details that matter.",
-    name: "Priya Shah",
-    title: "Head of Design, Lumen Labs",
+      "Ismail Idris is the kind of partner you wish every project had — fast, opinionated, and obsessed with the details that matter.",
+    name: "Yusuf Isah",
+    title: "Head of Design, Alabira",
     avatar: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=200&q=80",
   },
   {
