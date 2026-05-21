@@ -14,7 +14,7 @@ import portrait from "@/assets/portrait.jpg";
 export function HeroSection() {
   return (
     <section className="relative section-pad pt-32 md:pt-40 overflow-hidden">
-      <div className="container-cf flex flex-col md:flex-row gap-12 items-start">
+      <div className="container-cf px-6 md:px-12 flex flex-col md:flex-row gap-8 items-start">
         <div className="flex-1 min-w-0 fade-up">
           <span className="chip">
             <Sparkles size={12} /> Available for new projects
@@ -77,7 +77,7 @@ export function HeroSection() {
           </div>
         </div>
 
-        <div className="w-full md:w-[420px] shrink-0 relative fade-up">
+        <div className="w-full md:w-[380px] shrink-0 relative fade-up">
           <div className="relative aspect-[4/5] max-w-md mx-auto">
             <div
               className="absolute inset-0 rounded-[2rem] bg-gradient-to-br from-primary/30 via-transparent to-primary/10 blur-2xl"
