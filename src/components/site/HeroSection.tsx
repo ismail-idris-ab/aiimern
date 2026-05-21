@@ -77,7 +77,7 @@ export function HeroSection() {
           </div>
         </div>
 
-        <div className="w-full md:w-[380px] shrink-0 relative fade-up">
+        <div className="w-full md:w-[400px] lg:w-[480px] shrink-0 relative fade-up">
           <div className="relative aspect-[4/5] max-w-md mx-auto">
             <div
               className="absolute inset-0 rounded-[2rem] bg-gradient-to-br from-primary/30 via-transparent to-primary/10 blur-2xl"
