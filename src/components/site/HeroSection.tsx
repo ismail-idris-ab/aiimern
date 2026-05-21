@@ -14,13 +14,14 @@ import portrait from "@/assets/portrait.jpg";
 export function HeroSection() {
   return (
     <section className="relative section-pad pt-32 md:pt-40 overflow-hidden">
-      <div className="container-cf grid md:grid-cols-12 gap-12 items-center">
-        <div className="md:col-span-7 fade-up">
+      <div className="container-cf flex flex-col md:flex-row gap-12 items-start">
+        <div className="flex-1 min-w-0 fade-up">
           <span className="chip">
             <Sparkles size={12} /> Available for new projects
           </span>
-          <h1 className="mt-5 text-5xl md:text-6xl lg:text-7xl font-display font-semibold leading-[1.05]">
-            I turn <span className="gradient-text">ideas</span> into full-stack products.
+          <h1 className="mt-5 text-4xl md:text-5xl lg:text-6xl font-display font-semibold leading-[1.05]">
+            I turn <span className="gradient-text">ideas</span><br />
+            into full-stack products.
           </h1>
           <p className="mt-6 text-lg text-muted-foreground max-w-xl leading-relaxed">
             I'm Ismail Idris — a fullstack developer building fast, scalable web applications with
@@ -76,7 +77,7 @@ export function HeroSection() {
           </div>
         </div>
 
-        <div className="md:col-span-5 relative fade-up">
+        <div className="w-full md:w-[420px] shrink-0 relative fade-up">
           <div className="relative aspect-[4/5] max-w-md mx-auto">
             <div
               className="absolute inset-0 rounded-[2rem] bg-gradient-to-br from-primary/30 via-transparent to-primary/10 blur-2xl"
