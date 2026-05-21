@@ -18,7 +18,10 @@ export function AboutSection() {
     <section className="section-pad relative overflow-hidden" id="about">
       <div
         className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[400px] rounded-full blur-3xl pointer-events-none"
-        style={{ background: "radial-gradient(ellipse, color-mix(in oklab, var(--primary) 8%, transparent), transparent 70%)" }}
+        style={{
+          background:
+            "radial-gradient(ellipse, color-mix(in oklab, var(--primary) 8%, transparent), transparent 70%)",
+        }}
         aria-hidden
       />
 
@@ -26,8 +29,7 @@ export function AboutSection() {
         <div className="mb-12">
           <span className="chip">About me</span>
           <h2 className="mt-4 text-4xl md:text-5xl font-display font-semibold leading-tight max-w-2xl">
-            A fullstack developer with a{" "}
-            <span className="gradient-text">product mindset.</span>
+            A fullstack developer with a <span className="gradient-text">product mindset.</span>
           </h2>
         </div>
 
@@ -36,13 +38,24 @@ export function AboutSection() {
           <div className="space-y-8">
             <div className="space-y-4 text-muted-foreground leading-relaxed text-[1.05rem]">
               <p>
-                For nearly a decade, I've helped startups and global brands turn complex
-                problems into clean, considered products. I lead with curiosity, ship with
-                craft, and treat every pixel as a deliberate choice.
+                I'm Ismail, a Full-Stack Developer based in Lagos, Nigeria, specializing in the MERN
+                stack — MongoDB, Express.js, React, and Node.js. I build purposeful web applications
+                that solve real problems, with a particular focus on products tailored to Nigerian
+                and African markets.
               </p>
               <p>
-                My toolkit spans modern React, type-safe APIs, and motion design — but my
-                real obsession is the seam between engineering and storytelling.
+                My work sits at the intersection of clean engineering and thoughtful product design.
+                Whether I'm architecting a RESTful API, designing an intuitive UI, or integrating
+                third-party services like Paystack, I care deeply about the full user experience —
+                from database schema to the last pixel on screen.
+              </p>
+              <p>
+                My goal is to keep improving as a developer, build high-quality projects, and create digital solutions that are useful, professional, and impactful.
+              </p>
+              <p>
+                Currently, I'm building Rotara, a fintech-adjacent platform for rotating group
+                savings (ajo/esusu), bringing structure, transparency, and trust to one of Africa's
+                most enduring financial traditions.
               </p>
             </div>
 
@@ -64,10 +77,7 @@ export function AboutSection() {
           {/* Right — feature cards */}
           <div className="flex flex-col gap-4">
             {cards.map(({ Icon, label, sub }) => (
-              <div
-                key={label}
-                className="card-cf group flex items-center gap-5 p-6"
-              >
+              <div key={label} className="card-cf group flex items-center gap-5 p-6">
                 <div className="grid shrink-0 place-items-center size-12 rounded-2xl bg-primary/10 text-primary transition-colors group-hover:bg-primary/20">
                   <Icon size={20} />
                 </div>

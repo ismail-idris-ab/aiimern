@@ -20,7 +20,8 @@ export function HeroSection() {
             <Sparkles size={12} /> Available for new projects
           </span>
           <h1 className="mt-5 text-4xl md:text-5xl lg:text-6xl font-display font-semibold leading-[1.05]">
-            I turn <span className="gradient-text">ideas</span><br />
+            I turn <span className="gradient-text">ideas</span>
+            <br />
             into full-stack products.
           </h1>
           <p className="mt-6 text-lg text-muted-foreground max-w-xl leading-relaxed">
@@ -58,21 +59,6 @@ export function HeroSection() {
               >
                 <Icon size={15} />
               </a>
-            ))}
-          </div>
-
-          <div className="mt-14 grid grid-cols-3 gap-6 max-w-md">
-            {[
-              { k: "4+", v: "Years" },
-              { k: "12+", v: "Projects" },
-              { k: "6+", v: "Clients" },
-            ].map((s) => (
-              <div key={s.v}>
-                <div className="text-3xl font-display font-semibold gold-text">{s.k}</div>
-                <div className="text-xs uppercase tracking-widest text-muted-foreground mt-1">
-                  {s.v}
-                </div>
-              </div>
             ))}
           </div>
         </div>
